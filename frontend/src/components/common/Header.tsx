@@ -1,42 +1,30 @@
 import { NavLink } from 'react-router-dom';
+import NavMenu from '../navigation/NavMenu';
+import UserDropdown from '../navigation/UserDropdown';
 
-const Header = () => (
-  <header className="w-full bg-white border-b">
-    <div className="max-w-7xl mx-auto w-full px-4 py-3 flex items-center justify-between">
-      <NavLink to="/" className="text-xl font-semibold">
-        EduTool
-      </NavLink>
-      <nav aria-label="Main" className="hidden md:flex gap-4">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) => (isActive ? 'text-sky-600' : 'text-slate-700')}
-        >
-          Home
+const Header = () => {
+  return (
+    <header className=" relative  w-full bg-white border-b shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <NavLink to="/" className="text-xl font-semibold text-sky-600">
+          EduTool
         </NavLink>
-        <NavLink
-          to="/courses"
-          className={({ isActive }) => (isActive ? 'text-sky-600' : 'text-slate-700')}
-        >
-          Courses
-        </NavLink>
-        <NavLink
-          to="/about"
-          className={({ isActive }) => (isActive ? 'text-sky-600' : 'text-slate-700')}
-        >
-          About
-        </NavLink>
-      </nav>
-      <div className="flex items-center gap-3">
-        <NavLink to="/auth/login" className="text-sm text-slate-700">
-          Login
-        </NavLink>
-        <button aria-label="Toggle menu" className="md:hidden p-2 rounded hover:bg-slate-100">
-          ☰
-        </button>
+        <div className="hidden md:flex items-center justify-center rounded-full bg-slate-50 border border-slate-100 px-4 py-1.5 shadow-sm">
+          <span className="flex h-2 w-2 rounded-full bg-sky-500 mr-3 animate-pulse"></span>
+          <span className="text-sm font-medium text-slate-600">
+            Hệ thống quản lý tiến độ dự án <span className="mx-2 text-slate-300">|</span> Tích hợp
+            GitHub & Jira
+          </span>
+        </div>
+        {/* Right side */}
+        <div className="flex items-center gap-6">
+          <NavMenu role="user" direction="row" />
+          <UserDropdown />
+        </div>
       </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};
 
 export default Header;
