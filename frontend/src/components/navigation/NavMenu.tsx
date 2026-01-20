@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+
 import { NAV_ITEMS } from './nav.config';
 
 type Props = {
