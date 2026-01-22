@@ -1,4 +1,5 @@
 import { Routes } from 'react-router-dom';
+
 import { publicRoutes } from './publicRoutes';
 import { authRoutes } from './authRoutes';
 import { adminRoutes } from './adminRoutes';

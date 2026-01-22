@@ -1,18 +1,19 @@
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/admin/Sidebar';
 import { useState } from 'react';
+
+import Sidebar from '@/components/admin/Sidebar';
+import Header from '@/components/admin/Header';
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-slate-50">
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(s => !s)} />
       <div className="flex-1 flex flex-col">
-        <header className="bg-white border-b p-4">Admin Header</header>
-        <main className="flex-1 p-6">
+        <Header />
+        <main className="flex-1 p-8">
           <Outlet />
         </main>
-        <footer className="bg-slate-50 border-t p-3 text-sm">Admin footer (optional)</footer>
       </div>
     </div>
   );
