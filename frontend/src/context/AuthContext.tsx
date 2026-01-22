@@ -1,11 +1,11 @@
 import { createContext, useEffect, useState, type ReactNode } from 'react';
 
 import type { SystemRole } from '@/types/role.types';
-
 export type User = {
-  id: string;
-  name: string;
+  // id: string;
+  // name: string;
   role?: SystemRole;
+  token: string;
 };
 
 type AuthContextType = {

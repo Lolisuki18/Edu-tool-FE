@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
+import { AUTH_PATHS } from '@/constants/auth/auth.path';
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -41,11 +42,10 @@ const UserDropdown = () => {
           <button
             className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
             onClick={() => {
-              setOpen(false);
-              console.log('logout');
+              navigate(AUTH_PATHS.LOGIN);
             }}
           >
-            Logout
+            Đăng xuất
           </button>
         </div>
       )}
