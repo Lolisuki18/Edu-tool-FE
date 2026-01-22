@@ -2,9 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
+import { useAuth } from '@/hooks/useAuth';
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { logout } = useAuth();
+
   const navigate = useNavigate();
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -15,6 +18,10 @@ const UserDropdown = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  const handleLogout = () => {
+    navigate(AUTH_PATHS.LOGIN);
+    logout();
+  };
 
   return (
     <div ref={ref} className="relative">
@@ -41,9 +48,7 @@ const UserDropdown = () => {
 
           <button
             className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-            onClick={() => {
-              navigate(AUTH_PATHS.LOGIN);
-            }}
+            onClick={handleLogout}
           >
             Đăng xuất
           </button>

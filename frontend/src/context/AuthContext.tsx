@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('edu_user', JSON.stringify(user));
       } else {
         localStorage.removeItem('edu_user');
+        localStorage.removeItem('edu_token');
       }
     } catch {
       /* ignore storage errors */
