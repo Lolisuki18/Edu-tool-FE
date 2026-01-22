@@ -5,8 +5,8 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import SchoolIcon from '@mui/icons-material/School';
 import LinkIcon from '@mui/icons-material/Link';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import SettingsIcon from '@mui/icons-material/Settings';
 import CodeIcon from '@mui/icons-material/Code';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
 
@@ -18,12 +18,12 @@ type SidebarProps = {
 const menuItems = [
   { icon: <DashboardIcon />, label: 'Tổng quan', path: ADMIN_PATHS.DASHBOARD },
   { icon: <PeopleIcon />, label: 'Quản lý nhóm', path: ADMIN_PATHS.GROUPS },
-  { icon: <ImportContactsIcon />, label: 'Quản lý Giảng viên', path: ADMIN_PATHS.LECTURERS },
-  { icon: <SchoolIcon />, label: 'Quản lý Sinh viên', path: ADMIN_PATHS.STUDENTS },
-  { icon: <CodeIcon />, label: 'Quản lý Repository', path: ADMIN_PATHS.REPOSITORIES },
-  { icon: <LinkIcon />, label: 'Quản lý Link Jira', path: ADMIN_PATHS.JIRA },
-  { icon: <TextSnippetIcon />, label: 'Quản lý Report', path: ADMIN_PATHS.REPORTS },
-  { icon: <SettingsIcon />, label: 'Cài đặt', path: ADMIN_PATHS.SETTINGS },
+  { icon: <ImportContactsIcon />, label: 'Quản lý giảng viên', path: ADMIN_PATHS.LECTURERS },
+  { icon: <SchoolIcon />, label: 'Quản lý sinh viên', path: ADMIN_PATHS.STUDENTS },
+  { icon: <CodeIcon />, label: 'Quản lý kho lưu trữ', path: ADMIN_PATHS.REPOSITORIES },
+  { icon: <LinkIcon />, label: 'Quản lý link Jira', path: ADMIN_PATHS.JIRA },
+  { icon: <TextSnippetIcon />, label: 'Quản lý báo cáo', path: ADMIN_PATHS.REPORTS },
+  { icon: <HourglassEmptyIcon />, label: 'Quản lý kỳ học', path: ADMIN_PATHS.SEMESTER },
 ];
 
 const Sidebar = ({ collapsed = false }: SidebarProps) => (

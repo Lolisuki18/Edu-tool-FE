@@ -1,4 +1,4 @@
 const GroupManage = () => {
-  return <div>Group Manager Page</div>;
+  return <div className="text-red-600">Group Manager Page</div>;
 };
 export default GroupManage;

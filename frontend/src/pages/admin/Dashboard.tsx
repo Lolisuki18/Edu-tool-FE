@@ -61,7 +61,7 @@ const Dashboard = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Tổng quan hệ thống</h1>
-        <p className="text-gray-600 mt-1">Quản lý dự án SWP391 học kỳ Spring 2026</p>
+        <p className="text-gray-600 mt-1">Quản lý dự án Edutool cho trường học FPT</p>
       </div>
 
       {/* Stats Grid */}

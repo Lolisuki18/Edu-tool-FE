@@ -1,5 +1,3 @@
-// src/routes/admin.paths.ts
-
 const ADMIN_ROOT = '/admin';
 
 export const ADMIN_PATHS = {
@@ -11,5 +9,5 @@ export const ADMIN_PATHS = {
   REPOSITORIES: `${ADMIN_ROOT}/repositories`,
   JIRA: `${ADMIN_ROOT}/jira`,
   REPORTS: `${ADMIN_ROOT}/reports`,
-  SETTINGS: `${ADMIN_ROOT}/settings`,
+  SEMESTER: `${ADMIN_ROOT}/semesters`,
 };
