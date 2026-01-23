@@ -2,13 +2,14 @@ import { useState, type FormEvent } from 'react';
 import { GitBranch, Eye, EyeOff, Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 import { parseJwt } from '@/utils/jwt';
 import authService from '@/services/auth.service';
 import { useAuth } from '@/hooks/useAuth';
 import { SYSTEM_ROLE } from '@/types/role.types';
+import { AUTH_PATHS } from '@/constants/auth/auth.path';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -213,8 +214,8 @@ const LoginPage = () => {
                 type="button"
                 className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all duration-200 group"
               >
-                <FaFacebook className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-semibold text-slate-600">Facebook</span>
+                <FaGithub className="w-5 h-5 text-black group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-semibold text-slate-600">Github</span>
               </button>
             </div>
           </div>
@@ -222,7 +223,10 @@ const LoginPage = () => {
           <div className="mt-8 text-center">
             <p className="text-sm text-slate-500">
               Chưa có tài khoản?{' '}
-              <button className="text-blue-600 hover:text-blue-700 font-bold hover:underline transition-all">
+              <button
+                className="text-blue-600 hover:text-blue-700 font-bold hover:underline transition-all"
+                onClick={() => navigate(AUTH_PATHS.REGISTER)}
+              >
                 Đăng ký ngay
               </button>
             </p>

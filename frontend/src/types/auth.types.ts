@@ -5,8 +5,18 @@ export interface LoginRequest {
   username: string;
   password: string;
 }
+export interface RegisterRequest {
+  fullName: string;
+  email: string;
+  username: string;
+  password: string;
+}
 
 //========== Response Type ==========
+
+export interface RegisterResponse {
+  isSuccess: true;
+}
 
 export interface AuthResponse {
   accessToken: string;
