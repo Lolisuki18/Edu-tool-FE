@@ -1,11 +1,11 @@
 import { createContext, useEffect, useState, type ReactNode } from 'react';
 
 import type { SystemRole } from '@/types/role.types';
-
 export type User = {
-  id: string;
-  name: string;
+  // id: string;
+  // name: string;
   role?: SystemRole;
+  token: string;
 };
 
 type AuthContextType = {
@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('edu_user', JSON.stringify(user));
       } else {
         localStorage.removeItem('edu_user');
+        localStorage.removeItem('edu_token');
       }
     } catch {
       /* ignore storage errors */

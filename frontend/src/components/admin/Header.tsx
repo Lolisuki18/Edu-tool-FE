@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
+import { useAuth } from '@/hooks/useAuth';
 
 const routeNames: Record<string, string> = {
   [ADMIN_PATHS.DASHBOARD]: 'Tổng quan',
@@ -17,10 +18,15 @@ const routeNames: Record<string, string> = {
 };
 
 const Header = () => {
+  const { logout } = useAuth();
   const location = useLocation();
   const currentPath = location.pathname;
   const pageName = routeNames[currentPath] || 'Admin';
   const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate(AUTH_PATHS.LOGIN);
+    logout();
+  };
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div className="flex items-center justify-between px-8 py-4">
@@ -35,12 +41,10 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <button
             className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-            onClick={() => {
-              navigate(AUTH_PATHS.LOGIN);
-            }}
+            onClick={handleLogout}
           >
             <LogoutIcon className="w-5 h-5" />
-            Logout
+            Đăng xuất
           </button>
           {/* User Profile */}
           <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
