@@ -1,5 +1,10 @@
 import axiosInstance from '@/config/axios.config';
-import type { AuthResponse, LoginRequest } from '@/types/auth.types';
+import type {
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+  RegisterResponse,
+} from '@/types/auth.types';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {
@@ -16,22 +21,22 @@ class AuthService {
     return data;
   }
 
-  //   async register(userData: RegisterRequest): Promise<AuthResponse> {
-  //     try {
-  //       const response = await axiosInstance.post<never, AuthResponse>('/auth/register', userData);
+  async register(userData: RegisterRequest): Promise<RegisterResponse> {
+    try {
+      const response = await axiosInstance.post<RegisterResponse>('/auth/register', userData);
 
-  //       // Lưu token vào localStorage
-  //       if (response.success && response.data.token) {
-  //         localStorage.setItem('edu_token', response.data.token);
-  //         localStorage.setItem('edu_user', JSON.stringify(response.data.user));
-  //       }
+      // Lưu token vào localStorage
+      if (response.isSuccess) {
+        // localStorage.setItem('edu_token', response.data.token);
+        // localStorage.setItem('edu_user', JSON.stringify(response.data.user));
+      }
 
-  //       return response;
-  //     } catch (error) {
-  //       console.error('Register error:', error);
-  //       throw error;
-  //     }
-  //   }
+      return response;
+    } catch (error) {
+      console.error('Register error:', error);
+      throw error;
+    }
+  }
 
   /**
    * Đăng xuất
