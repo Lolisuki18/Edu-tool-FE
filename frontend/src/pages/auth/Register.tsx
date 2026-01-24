@@ -17,6 +17,7 @@ import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import authService from '@/services/auth.service';
 import type { ErrorDetail } from '@/types/interface/api.interface';
 import ErrorField from '@/components/common/ErrorField';
+import { successWithClose } from '@/utils/toast.tsx';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ const Register = () => {
       [name]: value,
     }));
 
-    // Reset field errors và general error khi user bắt đầu nhập lại
     if (error) setError('');
     if (filedError.length > 0) setFiledError([]);
   };
@@ -53,8 +53,14 @@ const Register = () => {
 
     try {
       const response = await authService.register(formData);
-      if (response.success) navigate(AUTH_PATHS.LOGIN);
-      else {
+
+      if (response.success) {
+        successWithClose(
+          'Chúc mừng bạn đã đăng ký thành công, kiểm tra email để verify sẽ chuyển đến trang đăng nhập sau 5s',
+          () => navigate(AUTH_PATHS.LOGIN),
+          5000
+        );
+      } else {
         setFiledError(response.errors);
       }
     } catch (err: any) {

@@ -17,9 +17,7 @@ class AuthService {
   }
 
   async register(userData: RegisterRequest): Promise<ApiResponse> {
-    const response = await axiosInstance.post<ApiResponse>('/auth/register', userData);
-    console.log(response);
-    return response;
+    return await axiosInstance.post<ApiResponse>('/auth/register', userData);
   }
 
   /**

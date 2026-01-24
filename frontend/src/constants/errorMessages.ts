@@ -20,6 +20,7 @@ export const ERROR_MESSAGES: Record<string, string> = {
   'Invalid request data': 'Dữ liệu không hợp lệ',
   'Internal server error': 'Lỗi hệ thống máy chủ',
 
+  'Password must be between 8 and 100 characters': 'Mật khẩu cần có từ 8 đến 100 kí tự',
   // Make new error
   // 'New Error Message From API': 'Thông báo lỗi tiếng Việt',
   // 'ErrorCode': 'Thông báo lỗi theo code',
