@@ -1,41 +1,25 @@
 import axiosInstance from '@/config/axios.config';
-import type {
-  AuthResponse,
-  LoginRequest,
-  RegisterRequest,
-  RegisterResponse,
-} from '@/types/auth.types';
+import type { ApiResponse } from '@/types/interface/api.interface';
+import type { AuthResponse, LoginRequest, RegisterRequest } from '@/types/interface/auth.interface';
 
 class AuthService {
-  async login(credentials: LoginRequest): Promise<AuthResponse> {
-    const data = await axiosInstance.post<AuthResponse>('/auth/login', credentials);
-
-    if (data.accessToken) {
-      localStorage.setItem('edu_token', data.accessToken);
-
-      //   if (data.user) {
-      //     localStorage.setItem('edu_user', JSON.stringify(data.user));
-      //   }
-    }
-
-    return data;
-  }
-
-  async register(userData: RegisterRequest): Promise<RegisterResponse> {
+  async login(credentials: LoginRequest): Promise<ApiResponse<AuthResponse>> {
     try {
-      const response = await axiosInstance.post<RegisterResponse>('/auth/register', userData);
-
-      // Lưu token vào localStorage
-      if (response.isSuccess) {
-        // localStorage.setItem('edu_token', response.data.token);
-        // localStorage.setItem('edu_user', JSON.stringify(response.data.user));
-      }
-
+      const response = await axiosInstance.post<ApiResponse<AuthResponse>>(
+        '/auth/login',
+        credentials
+      );
       return response;
     } catch (error) {
-      console.error('Register error:', error);
+      console.error('Login error:', error);
       throw error;
     }
+  }
+
+  async register(userData: RegisterRequest): Promise<ApiResponse> {
+    const response = await axiosInstance.post<ApiResponse>('/auth/register', userData);
+    console.log(response);
+    return response;
   }
 
   /**
