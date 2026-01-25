@@ -1,23 +1,7 @@
-import { createContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
-import type { SystemRole } from '@/types/role.types';
-export type User = {
-  // id: string;
-  // name: string;
-  role?: SystemRole;
-  token: string;
-};
-
-type AuthContextType = {
-  user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
-  isAuthenticated: boolean;
-};
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
+import type { User } from '@/types/user.type';
+import type { AuthContextType, AuthProviderProps } from '@/types/auth.type';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

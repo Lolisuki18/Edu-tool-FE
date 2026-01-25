@@ -1,15 +1,23 @@
 import { useState, type FormEvent } from 'react';
-import { GitBranch, Eye, EyeOff, Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
+import {
+  GitBranch,
+  Eye,
+  EyeOff,
+  Lock,
+  AlertCircle,
+  ArrowRight,
+  User as UserIcon,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 
-import { parseJwt } from '@/utils/jwt';
 import authService from '@/services/auth.service';
 import { useAuth } from '@/hooks/useAuth';
 import { SYSTEM_ROLE } from '@/types/role.types';
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
+import type { User } from '@/types/user.type';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -27,15 +35,13 @@ const LoginPage = () => {
 
     try {
       const response = await authService.login({ username, password });
+      console.log(response);
+      if (response.data.accessToken) {
+        const user = response.data as User;
+        console.log(user);
+        login(user);
 
-      if (response.accessToken) {
-        const userInfo = parseJwt(response.accessToken);
-        login({
-          token: response.accessToken,
-          role: userInfo.role,
-        });
-
-        if (userInfo.role.toUpperCase() === SYSTEM_ROLE.ADMIN) {
+        if (user.role?.toUpperCase() === SYSTEM_ROLE.ADMIN) {
           navigate('/admin');
         } else {
           navigate('/');
@@ -98,7 +104,7 @@ const LoginPage = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                    <User size={20} />
+                    <UserIcon size={20} />
                   </div>
                   <input
                     type="text"

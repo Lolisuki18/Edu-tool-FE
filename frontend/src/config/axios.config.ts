@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
-
 interface CustomAxiosInstance extends AxiosInstance {
   get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T>;
   delete<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T>;
@@ -23,7 +22,16 @@ const axiosInstance: CustomAxiosInstance = axios.create({
 // --- Request Interceptor ---
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('edu_token');
+    const userStr = localStorage.getItem('edu_user');
+    let token = '';
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        token = user.accessToken;
+      } catch {
+        console.log('Error when get token');
+      }
+    }
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -45,13 +53,16 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response;
       const serverMessage = (data as any)?.message || (data as any)?.error;
+
+      if (status === 400 && (data as any)?.errors) {
+        const customError = new Error(serverMessage || 'Invalid request data');
+        (customError as any).response = error.response;
+        return Promise.reject(customError);
+      }
+
       switch (status) {
-        case 400:
-          errorMessage = serverMessage || 'Dữ liệu gửi đi không hợp lệ';
-          break;
         case 401:
           if (window.location.pathname !== '/login') {
-            localStorage.removeItem('edu_token');
             localStorage.removeItem('edu_user');
             window.location.href = '/login';
             errorMessage = 'Phiên đăng nhập hết hạn';

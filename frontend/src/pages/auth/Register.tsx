@@ -15,6 +15,9 @@ import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import authService from '@/services/auth.service';
+import type { ErrorDetail } from '@/types/interface/api.interface';
+import ErrorField from '@/components/common/ErrorField';
+import { successWithClose } from '@/utils/toast.tsx';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -29,6 +32,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [filedError, setFiledError] = useState<ErrorDetail[]>([]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,25 +40,36 @@ const Register = () => {
       ...prev,
       [name]: value,
     }));
+
+    if (error) setError('');
+    if (filedError.length > 0) setFiledError([]);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
-
-    if (formData.password.length < 8) {
-      setError('Mật khẩu phải có ít nhất 8 ký tự.');
-      return;
-    }
-
+    setFiledError([]);
     setLoading(true);
 
     try {
-      await authService.register(formData);
-      navigate('/login');
+      const response = await authService.register(formData);
+
+      if (response.success) {
+        successWithClose(
+          'Chúc mừng bạn đã đăng ký thành công, kiểm tra email để verify sẽ chuyển đến trang đăng nhập sau 5s',
+          () => navigate(AUTH_PATHS.LOGIN),
+          5000
+        );
+      } else {
+        setFiledError(response.errors);
+      }
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại!';
-      setError(errorMessage);
+      if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
+        setFiledError(err.response.data.errors);
+      } else {
+        const errorMessage = err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại!';
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -120,6 +135,7 @@ const Register = () => {
                   required
                 />
               </div>
+              <ErrorField errors={filedError} field="fullName" />
             </div>
 
             <div className="group">
@@ -140,6 +156,7 @@ const Register = () => {
                   required
                 />
               </div>
+              <ErrorField errors={filedError} field="email" />
             </div>
 
             <div className="group">
@@ -160,6 +177,7 @@ const Register = () => {
                   required
                 />
               </div>
+              <ErrorField errors={filedError} field="username" />
             </div>
 
             <div className="group">
@@ -187,7 +205,10 @@ const Register = () => {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-              <p className="text-xs text-slate-400 mt-1 ml-1">* Mật khẩu cần ít nhất 8 ký tự</p>
+              <p className="text-xs text-slate-400 mt-1 ml-1">
+                * Mật khẩu cần ít nhất 8 ký tự gồm 1 ký tự đặc biệt và 1 ký tự in hoa
+              </p>
+              <ErrorField errors={filedError} field="password" />
             </div>
 
             <button

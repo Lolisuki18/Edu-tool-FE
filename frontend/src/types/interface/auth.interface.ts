@@ -1,4 +1,5 @@
-import type { SystemRole } from './role.types';
+import type { SystemRole } from '../role.types';
+import type { UserStatus } from '../user.type';
 
 //========== Request Type ==========
 export interface LoginRequest {
@@ -14,11 +15,11 @@ export interface RegisterRequest {
 
 //========== Response Type ==========
 
-export interface RegisterResponse {
-  isSuccess: true;
-}
-
 export interface AuthResponse {
+  role: SystemRole;
+  fullName: string;
+  email: string;
+  status: UserStatus;
   accessToken: string;
 }
 
@@ -27,11 +28,4 @@ export interface JwtPayload {
   role: SystemRole;
   iat: number;
   exp: number;
-}
-
-// Error response
-export interface ApiError {
-  error: string;
-  message: string;
-  status: 500;
 }
