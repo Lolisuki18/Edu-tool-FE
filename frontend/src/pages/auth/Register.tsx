@@ -121,16 +121,14 @@ const Register = () => {
               <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Họ và tên
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                  <BadgeCheck size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <BadgeCheck size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="input-academic pl-12"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="Nguyễn Văn A"
                   required
                 />
@@ -142,16 +140,14 @@ const Register = () => {
               <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Email
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                  <Mail size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <Mail size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="input-academic pl-12"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="name@example.com"
                   required
                 />
@@ -163,16 +159,14 @@ const Register = () => {
               <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Tên đăng nhập
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                  <User size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <User size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="input-academic pl-12"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="username123"
                   required
                 />
@@ -184,26 +178,26 @@ const Register = () => {
               <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Mật khẩu
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                  <Lock size={20} />
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <Lock size={20} className="text-primary flex-shrink-0" />
+                <div className="flex-1 relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
+                    placeholder="Tối thiểu 8 ký tự"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg transition-all duration-200 flex items-center justify-center text-primary hover:bg-border/50 p-1"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="input-academic pl-12 pr-12"
-                  placeholder="Tối thiểu 8 ký tự"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-secondary hover:text-text-primary p-1 rounded-full hover:bg-background transition-all"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
               </div>
               <p className="text-caption text-secondary mt-1 ml-1">
                 * Mật khẩu cần ít nhất 8 ký tự gồm 1 ký tự đặc biệt và 1 ký tự in hoa

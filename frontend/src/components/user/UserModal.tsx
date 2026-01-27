@@ -95,14 +95,12 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
                 <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                   Tên tài khoản
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary">
-                    <PersonOutlineIcon fontSize="small" />
-                  </div>
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <PersonOutlineIcon fontSize="small" className="text-primary flex-shrink-0" />
                   <input
                     name="username"
                     required
-                    className="input-academic pl-11"
+                    className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                     placeholder="Ví dụ: nguyenvana_edu"
                     onChange={handleChange}
                     value={(formData as any).username || ''}
@@ -114,14 +112,12 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                 Họ và tên
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary">
-                  <BadgeOutlinedIcon fontSize="small" />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <BadgeOutlinedIcon fontSize="small" className="text-primary flex-shrink-0" />
                 <input
                   name="fullName"
                   required
-                  className="input-academic pl-11"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="Ví dụ: Nguyễn Văn A"
                   onChange={handleChange}
                   value={formData.fullName}
@@ -133,15 +129,13 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                 Email học đường
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary">
-                  <AlternateEmailIcon fontSize="small" />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <AlternateEmailIcon fontSize="small" className="text-primary flex-shrink-0" />
                 <input
                   name="email"
                   type="email"
                   required
-                  className="input-academic pl-11"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="name@edutools.com"
                   onChange={handleChange}
                   value={formData.email}
@@ -162,32 +156,31 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
                 <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                   Mật khẩu
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary">
-                    <LockOutlinedIcon fontSize="small" />
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <LockOutlinedIcon fontSize="small" className="text-primary flex-shrink-0" />
+                  <div className="flex-1 relative">
+                    <input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      required={isCreate}
+                      className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
+                      placeholder="••••••••"
+                      onChange={handleChange}
+                      value={formData.password}
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePassword}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg transition-all duration-200 flex items-center justify-center text-primary hover:bg-border/50 p-1"
+                      title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon sx={{ fontSize: 18 }} />
+                      ) : (
+                        <VisibilityIcon sx={{ fontSize: 18 }} />
+                      )}
+                    </button>
                   </div>
-                  <input
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    required={isCreate}
-                    className="input-academic pl-11 pr-12"
-                    placeholder="••••••••"
-                    onChange={handleChange}
-                    value={formData.password}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={togglePassword}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-xl transition-all duration-200 h-7 w-7 flex items-center justify-center text-primary"
-                    title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-                  >
-                    {showPassword ? (
-                      <VisibilityOffIcon fontSize="small" />
-                    ) : (
-                      <VisibilityIcon fontSize="small" />
-                    )}
-                  </button>
                 </div>
                 <ErrorField errors={fieldErrors} field="password" />
               </div>

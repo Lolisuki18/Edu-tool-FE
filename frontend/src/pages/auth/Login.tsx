@@ -103,15 +103,13 @@ const LoginPage = () => {
                 <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                   Tên đăng nhập
                 </label>
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                    <UserIcon size={20} />
-                  </div>
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <UserIcon size={20} className="text-primary flex-shrink-0" />
                   <input
                     type="text"
                     value={username}
                     onChange={e => setUsername(e.target.value)}
-                    className="input-academic pl-12"
+                    className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                     placeholder="Nhập tên đăng nhập"
                     required
                     disabled={loading}
@@ -131,26 +129,26 @@ const LoginPage = () => {
                     Quên mật khẩu?
                   </button>
                 </div>
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors">
-                    <Lock size={20} />
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <Lock size={20} className="text-primary flex-shrink-0" />
+                  <div className="flex-1 relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
+                      placeholder="••••••••"
+                      required
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg transition-all duration-200 flex items-center justify-center text-primary hover:bg-border/50 p-1"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="input-academic pl-12 pr-12"
-                    placeholder="••••••••"
-                    required
-                    disabled={loading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-secondary hover:text-text-primary p-1 rounded-full hover:bg-background transition-all"
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
                 </div>
               </div>
             </div>
