@@ -2,21 +2,21 @@ import { Link } from 'react-router-dom';
 
 const CTA = () => {
   return (
-    <section className="bg-indigo-600 py-20 text-white">
+    <section className="bg-primary py-20 text-white">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <h2 className="text-3xl font-bold">Sẵn sàng quản lý học tập hiệu quả hơn?</h2>
-        <p className="mt-4 text-indigo-100">Bắt đầu sử dụng EduTools ngay hôm nay</p>
+        <p className="mt-4 text-blue-100">Bắt đầu sử dụng EduTools ngay hôm nay</p>
 
         <div className="mt-8 flex justify-center gap-4">
           <Link
             to="/register"
-            className="rounded-xl bg-white px-8 py-3 font-semibold text-indigo-600 hover:bg-gray-100"
+            className="btn-primary bg-white text-primary hover:bg-background"
           >
             Đăng ký miễn phí
           </Link>
           <Link
             to="/login"
-            className="rounded-xl border border-white/40 px-8 py-3 font-semibold hover:bg-white/10"
+            className="btn-secondary bg-white/10 text-white border-white/40 hover:bg-white/20"
           >
             Đăng nhập
           </Link>

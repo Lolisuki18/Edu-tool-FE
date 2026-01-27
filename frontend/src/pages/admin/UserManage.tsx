@@ -57,40 +57,41 @@ export const UserManage = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-indigo-900">Quản lý người dùng</h1>
-        <button
-          onClick={handleOpenCreate}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-indigo-100 transition-all flex items-center gap-2"
-        >
+        <h1 className="text-academic-h1">Quản lý người dùng</h1>
+        <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2">
           <PersonAddAltIcon />
           Thêm người dùng
         </button>
       </div>
-      <div className="overflow-x-auto rounded-lg border bg-white">
+      <div className="overflow-x-auto rounded-lg border border-border bg-card">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 text-indigo-900 border-b border-gray-100">
+          <thead className="bg-background text-text-primary border-b border-border">
             <tr>
-              <th className="p-4 font-semibold text-sm">Username</th>
-              <th className="p-4 font-semibold text-sm">Họ và tên</th>
-              <th className="p-4 font-semibold text-sm">Email</th>
-              <th className="p-4 font-semibold text-sm">Vai trò</th>
-              <th className="p-4 font-semibold text-sm">Trạng thái</th>
-              <th className="p-4 font-semibold text-sm text-center">Hành động</th>
+              <th className="p-4 font-semibold text-small">Username</th>
+              <th className="p-4 font-semibold text-small">Họ và tên</th>
+              <th className="p-4 font-semibold text-small">Email</th>
+              <th className="p-4 font-semibold text-small">Vai trò</th>
+              <th className="p-4 font-semibold text-small">Trạng thái</th>
+              <th className="p-4 font-semibold text-small text-center">Hành động</th>
             </tr>
           </thead>
           <tbody>
             {users.map(user => (
-              <tr key={user.userId} className="hover:bg-indigo-50/30 transition-colors">
-                <td className="p-4 text-sm font-medium text-gray-700">{user.username}</td>
-                <td className="p-4 text-sm text-gray-600">{user.fullName}</td>
-                <td className="p-4 text-sm text-gray-600">{user.email}</td>
+              <tr key={user.userId} className="hover:bg-background transition-colors">
+                <td className="p-4 text-small font-medium text-text-primary">{user.username}</td>
+                <td className="p-4 text-small text-text-secondary">{user.fullName}</td>
+                <td className="p-4 text-small text-text-secondary">{user.email}</td>
 
                 <td className="p-3">
                   <span
-                    className={`rounded px-2 py-1 text-xs font-semibold
-                    ${user.role === SYSTEM_ROLE.ADMIN && 'bg-red-100 text-red-600'}
-                    ${user.role === SYSTEM_ROLE.LECTURER && 'bg-blue-100 text-blue-600'}
-                    ${user.role === SYSTEM_ROLE.STUDENT && 'bg-gray-100 text-gray-600'}
+                    className={`rounded px-2 py-1 text-caption font-semibold
+                    ${
+                      user.role === SYSTEM_ROLE.ADMIN
+                        ? 'bg-red-50 text-error'
+                        : user.role === SYSTEM_ROLE.LECTURER
+                          ? 'bg-blue-50 text-info'
+                          : 'bg-background text-secondary'
+                    }
                   `}
                   >
                     {translateRole(user.role)}
@@ -99,12 +100,8 @@ export const UserManage = () => {
 
                 <td className="p-3">
                   <span
-                    className={`rounded px-2 py-1 text-xs font-semibold
-                    ${
-                      user.status === 'ACTIVE'
-                        ? 'bg-green-100 text-green-600'
-                        : 'bg-gray-100 text-gray-500'
-                    }
+                    className={`rounded px-2 py-1 text-caption font-semibold
+                    ${user.status === 'ACTIVE' ? 'bg-green-50 text-success' : 'bg-background text-secondary'}
                   `}
                   >
                     {translateStatus(user.status)}
@@ -114,14 +111,14 @@ export const UserManage = () => {
                 <td className="p-4 text-center">
                   <div className="flex justify-center gap-2">
                     <button
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 rounded-lg transition-colors text-info hover:bg-blue-50"
                       title="Xem"
                     >
                       <VisibilityIcon />
                     </button>
                     <button
                       onClick={() => handleOpenUpdate(user)}
-                      className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                      className="p-2 rounded-lg transition-colors text-warning hover:bg-orange-50"
                       title="Sửa"
                     >
                       <UpgradeIcon />
@@ -135,7 +132,7 @@ export const UserManage = () => {
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-sm text-gray-500">
+        <span className="text-small text-text-secondary">
           Trang {page + 1} / {totalPages}
         </span>
 
@@ -143,14 +140,14 @@ export const UserManage = () => {
           <button
             disabled={page === 0}
             onClick={() => setPage(page - 1)}
-            className="rounded border px-3 py-1 disabled:opacity-50"
+            className="btn-secondary disabled:opacity-50"
           >
             Trước đó
           </button>
           <button
             disabled={page + 1 >= totalPages}
             onClick={() => setPage(page + 1)}
-            className="rounded border px-3 py-1 disabled:opacity-50"
+            className="btn-secondary disabled:opacity-50"
           >
             Tiếp theo
           </button>
