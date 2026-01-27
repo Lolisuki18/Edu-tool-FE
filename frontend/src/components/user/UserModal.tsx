@@ -65,10 +65,10 @@ const UserModal = ({ isOpen, onClose, action, onSuccess, userData }: Props) => {
           <div>
             <h2 className="text-academic-h1">
               {action == USER_ACTION.CREATE
-                ? 'Thêm Thành Viên'
+                ? 'Thêm người dùng'
                 : action == USER_ACTION.UPDATE
                   ? 'Cập Nhật Thông Tin'
-                  : 'Thông tin thành viên'}
+                  : 'Thông tin người dùng'}
             </h2>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="w-2 h-2 rounded-full bg-primary"></span>

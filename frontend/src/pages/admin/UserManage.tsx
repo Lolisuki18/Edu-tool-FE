@@ -8,6 +8,7 @@ import { SYSTEM_ROLE } from '@/types/role.types';
 import { translateRole, translateStatus } from '@/utils';
 import type { Users } from '@/interface';
 import UserModal from '@/components/user/UserModal';
+import { USER_ACTION, type UserAction } from '@/types/user.type';
 
 export const UserManage = () => {
   const [users, setUsers] = useState<Users[]>([]);
@@ -15,17 +16,17 @@ export const UserManage = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCreateMode, setIsCreateMode] = useState(true);
+  const [isAction, setIsAction] = useState<UserAction>();
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
   const handleOpenCreate = () => {
-    setIsCreateMode(true);
+    setIsAction(USER_ACTION.CREATE);
     setSelectedUser(null);
     setIsModalOpen(true);
   };
 
   const handleOpenUpdate = (user: Users) => {
-    setIsCreateMode(false);
+    setIsAction(USER_ACTION.UPDATE);
     setSelectedUser(user);
     setIsModalOpen(true);
   };
@@ -156,7 +157,7 @@ export const UserManage = () => {
       <UserModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        isCreate={isCreateMode}
+        action={isAction as UserAction}
         onSuccess={handleSuccess}
         userData={selectedUser}
       />
