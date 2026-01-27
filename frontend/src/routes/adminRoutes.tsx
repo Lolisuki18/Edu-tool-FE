@@ -1,15 +1,18 @@
 import { Route } from 'react-router-dom';
 
 import AdminLayout from '@/layouts/AdminLayout';
-import Dashboard from '@/pages/admin/Dashboard';
-import GroupManage from '@/pages/admin/GroupManage';
-import LectureManage from '@/pages/admin/LectureManage';
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
-import StudentManage from '@/pages/admin/StudentManage';
-import RepositoryManage from '@/pages/admin/RepositoryManage';
-import JiraManage from '@/pages/admin/JiraManage';
-import ReportManage from '@/pages/admin/ReportManage';
-import SemestersManage from '@/pages/admin/SemestersManage';
+import {
+  Dashboard,
+  GroupManage,
+  JiraManage,
+  LectureManage,
+  ReportManage,
+  RepositoryManage,
+  SemestersManage,
+  StudentManage,
+  UserManage,
+} from '@/pages/admin';
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -24,6 +27,7 @@ export const adminRoutes = (
       <Route path="jira" element={<JiraManage />} />
       <Route path="reports" element={<ReportManage />} />
       <Route path="semesters" element={<SemestersManage />} />
+      <Route path="users" element={<UserManage />} />
     </Route>
   </Route>
 );

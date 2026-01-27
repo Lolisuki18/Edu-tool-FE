@@ -7,6 +7,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import CodeIcon from '@mui/icons-material/Code';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
 
@@ -17,6 +18,7 @@ type SidebarProps = {
 
 const menuItems = [
   { icon: <DashboardIcon />, label: 'Tổng quan', path: ADMIN_PATHS.DASHBOARD },
+  { icon: <ManageAccountsIcon />, label: 'Quản lý người dùng', path: ADMIN_PATHS.USER },
   { icon: <PeopleIcon />, label: 'Quản lý nhóm', path: ADMIN_PATHS.GROUPS },
   { icon: <ImportContactsIcon />, label: 'Quản lý giảng viên', path: ADMIN_PATHS.LECTURERS },
   { icon: <SchoolIcon />, label: 'Quản lý sinh viên', path: ADMIN_PATHS.STUDENTS },

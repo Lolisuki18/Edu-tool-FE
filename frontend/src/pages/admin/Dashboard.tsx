@@ -5,7 +5,7 @@ import CallSplitIcon from '@mui/icons-material/CallSplit';
 import { GitHub, TrendingUp } from '@mui/icons-material';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 
-const Dashboard = () => {
+export const Dashboard = () => {
   const stats = [
     {
       label: 'Tổng nhóm',
@@ -158,5 +158,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
-export default Dashboard;

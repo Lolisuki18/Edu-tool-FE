@@ -15,6 +15,7 @@ const routeNames: Record<string, string> = {
   [ADMIN_PATHS.REPOSITORIES]: 'Quản lý Repository',
   [ADMIN_PATHS.JIRA]: 'Quản lý Link Jira',
   [ADMIN_PATHS.REPORTS]: 'Quản lý Report',
+  [ADMIN_PATHS.USER]: 'Quản lý người dùng',
 };
 
 const Header = () => {

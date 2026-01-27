@@ -21,16 +21,36 @@ class AuthService {
   }
 
   /**
+   * Refresh access token using httpOnly cookie
+   */
+  // async refreshToken(): Promise<ApiResponse<AuthResponse>> {
+  //   try {
+  //     const response = await axiosInstance.post<ApiResponse<AuthResponse>>(
+  //       '/auth/refresh',
+  //       {},
+  //       {
+  //         withCredentials: true, // Send httpOnly cookie
+  //       }
+  //     );
+  //     return response;
+  //   } catch (error) {
+  //     console.error('Refresh token error:', error);
+  //     throw error;
+  //   }
+  // }
+
+  /**
    * Đăng xuất
    */
   async logout(): Promise<void> {
     try {
-      await axiosInstance.post('/auth/logout');
+      await axiosInstance.post('/auth/logout', {});
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
       localStorage.removeItem('edu_token');
       localStorage.removeItem('edu_user');
+      document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/auth/refresh;';
     }
   }
 
