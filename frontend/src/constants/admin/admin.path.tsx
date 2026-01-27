@@ -10,4 +10,5 @@ export const ADMIN_PATHS = {
   JIRA: `${ADMIN_ROOT}/jira`,
   REPORTS: `${ADMIN_ROOT}/reports`,
   SEMESTER: `${ADMIN_ROOT}/semesters`,
+  USER: `${ADMIN_ROOT}/users`,
 };

@@ -1,6 +1,8 @@
+import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
+// --- Interface & Config ---
 interface CustomAxiosInstance extends AxiosInstance {
   get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T>;
   delete<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T>;
@@ -10,6 +12,20 @@ interface CustomAxiosInstance extends AxiosInstance {
 }
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
 
 const axiosInstance: CustomAxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -22,24 +38,16 @@ const axiosInstance: CustomAxiosInstance = axios.create({
 // --- Request Interceptor ---
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const userStr = localStorage.getItem('edu_user');
-    let token = '';
-    if (userStr) {
-      try {
-        const user = JSON.parse(userStr);
-        token = user.accessToken;
-      } catch {
-        console.log('Error when get token');
+    const tokenStr = localStorage.getItem('edu_token');
+    if (tokenStr) {
+      const accessToken = JSON.parse(tokenStr);
+      if (accessToken && config.headers) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
       }
-    }
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 // --- Response Interceptor ---
@@ -47,27 +55,71 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data;
   },
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
+    const originalRequest: any = error.config;
     let errorMessage = 'Đã có lỗi xảy ra';
 
     if (error.response) {
       const { status, data } = error.response;
       const serverMessage = (data as any)?.message || (data as any)?.error;
 
+      if (status === 401 && !originalRequest._retry) {
+        if (window.location.pathname === AUTH_PATHS.LOGIN) {
+          localStorage.removeItem('edu_user');
+          return Promise.reject(error);
+        }
+
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then(token => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              return axiosInstance(originalRequest);
+            })
+            .catch(err => Promise.reject(err));
+        }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        try {
+          const refreshResponse = await axios.post(
+            `${BASE_URL}${AUTH_PATHS.REFRESH_TOKEN}`,
+            {},
+            { withCredentials: true }
+          );
+
+          const newAccessToken = refreshResponse.data.accessToken;
+
+          const userStr = localStorage.getItem('edu_user');
+          if (userStr) {
+            const user = JSON.parse(userStr);
+            user.accessToken = newAccessToken;
+            localStorage.setItem('edu_user', JSON.stringify(user));
+          }
+
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+          processQueue(null, newAccessToken);
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          processQueue(refreshError, null);
+          localStorage.removeItem('edu_user');
+          window.location.href = AUTH_PATHS.LOGIN;
+          return Promise.reject(new Error('Phiên đăng nhập đã hết hạn hoàn toàn.'));
+        } finally {
+          isRefreshing = false;
+        }
+      }
       if (status === 400 && (data as any)?.errors) {
-        const customError = new Error(serverMessage || 'Invalid request data');
+        const customError = new Error(serverMessage || 'Dữ liệu không hợp lệ');
         (customError as any).response = error.response;
         return Promise.reject(customError);
       }
 
       switch (status) {
-        case 401:
-          if (window.location.pathname !== '/login') {
-            localStorage.removeItem('edu_user');
-            window.location.href = '/login';
-            errorMessage = 'Phiên đăng nhập hết hạn';
-          }
-          break;
         case 403:
           errorMessage = 'Bạn không có quyền truy cập tài nguyên này';
           break;

@@ -34,7 +34,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await authService.login({ username, password });
+      const response = await authService.login({ username, password, withCredentials: true });
       console.log(response);
       if (response.data.accessToken) {
         const user = response.data as User;

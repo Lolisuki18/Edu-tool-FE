@@ -18,7 +18,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     try {
       if (user) {
-        localStorage.setItem('edu_user', JSON.stringify(user));
+        const userInfo = {
+          role: user.role,
+          fullname: user.fullName,
+          email: user.email,
+          status: user.status,
+        };
+        const token = user.accessToken;
+        localStorage.setItem('edu_user', JSON.stringify(userInfo));
+        localStorage.setItem('edu_token', JSON.stringify(token));
       } else {
         localStorage.removeItem('edu_user');
         localStorage.removeItem('edu_token');
