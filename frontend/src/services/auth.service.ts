@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios.config';
-import type { ApiResponse } from '@/types/interface/api.interface';
-import type { AuthResponse, LoginRequest, RegisterRequest } from '@/types/interface/auth.interface';
+import type { ApiResponse } from '@/interface/api.interface';
+import type { AuthResponse, LoginRequest, RegisterRequest } from '@/interface/auth.interface';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<ApiResponse<AuthResponse>> {

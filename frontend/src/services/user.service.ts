@@ -1,7 +1,7 @@
 import axiosInstance from '@/config/axios.config';
 import { USER_PATH } from '@/constants/user/user.path';
-import type { ApiResponse } from '@/types/interface/api.interface';
-import type { UserFormState, Users } from '@/types/interface/user.interface';
+import type { ApiResponse } from '@/interface/api.interface';
+import type { UserFormState, Users } from '@/interface/user.interface';
 
 interface PaginatedResponse {
   content: Users[];

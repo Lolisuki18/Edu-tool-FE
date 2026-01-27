@@ -16,3 +16,12 @@ export const USER_STATUS = {
 } as const;
 
 export type UserStatus = (typeof USER_STATUS)[keyof typeof USER_STATUS];
+
+// Type UserModal
+
+export const USER_ACTION = {
+  VIEW: 'VIEW',
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+};
+export type UserAction = (typeof USER_ACTION)[keyof typeof USER_ACTION];

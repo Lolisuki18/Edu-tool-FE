@@ -15,7 +15,7 @@ import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import authService from '@/services/auth.service';
-import type { ErrorDetail } from '@/types/interface/api.interface';
+import type { ErrorDetail } from '@/interface/api.interface';
 import ErrorField from '@/components/common/ErrorField';
 import { successWithClose } from '@/utils/toast.tsx';
 

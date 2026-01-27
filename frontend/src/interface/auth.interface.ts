@@ -1,5 +1,5 @@
-import type { SystemRole } from '../role.types';
-import type { UserStatus } from '../user.type';
+import type { SystemRole } from '../types/role.types';
+import type { UserStatus } from '../types/user.type';
 
 //========== Request Type ==========
 export interface LoginRequest {

@@ -10,8 +10,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { useUserForm } from '@/hooks/user';
+import { USER_ACTION, type UserAction } from '@/types/user.type';
 import { SYSTEM_ROLE } from '@/types/role.types';
-import type { Users } from '@/types/interface';
+import type { Users } from '@/interface';
 import { COLORS } from '@/theme';
 
 import CustomSelect from '../common/CustomSelect';
@@ -20,7 +21,7 @@ import ErrorField from '../common/ErrorField';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  isCreate: boolean;
+  action: UserAction;
   onSuccess: () => void;
   userData?: Users | null;
 }
@@ -43,7 +44,7 @@ const ROLE_OPTIONS = [
   },
 ];
 
-const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) => {
+const UserModal = ({ isOpen, onClose, action, onSuccess, userData }: Props) => {
   const {
     formData,
     loading,
@@ -53,7 +54,7 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
     handleSubmit,
     togglePassword,
     fieldErrors,
-  } = useUserForm(onSuccess, isCreate, userData, isOpen);
+  } = useUserForm(onSuccess, action, userData, isOpen);
 
   if (!isOpen) return null;
 
@@ -63,7 +64,11 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
         <div className="px-8 py-5 border-b border-border flex justify-between items-center rounded-t-3xl bg-background">
           <div>
             <h2 className="text-academic-h1">
-              {isCreate ? 'Thêm Thành Viên' : 'Cập Nhật Thông Tin'}
+              {action == USER_ACTION.CREATE
+                ? 'Thêm Thành Viên'
+                : action == USER_ACTION.UPDATE
+                  ? 'Cập Nhật Thông Tin'
+                  : 'Thông tin thành viên'}
             </h2>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="w-2 h-2 rounded-full bg-primary"></span>
@@ -90,7 +95,7 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
           )}
 
           <div className="space-y-5">
-            {isCreate && (
+            {action == USER_ACTION.CREATE && (
               <div className="group space-y-1.5 animate-in slide-in-from-top-4 duration-500">
                 <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                   Tên tài khoản
@@ -162,7 +167,7 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
                     <input
                       name="password"
                       type={showPassword ? 'text' : 'password'}
-                      required={isCreate}
+                      required={action == USER_ACTION.CREATE}
                       className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                       placeholder="••••••••"
                       onChange={handleChange}
@@ -196,19 +201,21 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               type="submit"
               disabled={loading}
               className="w-full sm:flex-[1.5] text-white font-semibold rounded-2xl shadow-xl transition-all duration-300 active:scale-[0.98] flex justify-center items-center gap-2 text-body disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3.5"
-              style={{ backgroundColor: isCreate ? COLORS.primary : COLORS.success }}
+              style={{
+                backgroundColor: action == USER_ACTION.CREATE ? COLORS.primary : COLORS.success,
+              }}
               onMouseEnter={e =>
-                (e.currentTarget.style.backgroundColor = isCreate
-                  ? COLORS.primaryHover
-                  : COLORS.successLight)
+                (e.currentTarget.style.backgroundColor =
+                  action == USER_ACTION.CREATE ? COLORS.primaryHover : COLORS.successLight)
               }
               onMouseLeave={e =>
-                (e.currentTarget.style.backgroundColor = isCreate ? COLORS.primary : COLORS.success)
+                (e.currentTarget.style.backgroundColor =
+                  action == USER_ACTION.CREATE ? COLORS.primary : COLORS.success)
               }
             >
               {loading ? (
                 <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin-smooth"></div>
-              ) : isCreate ? (
+              ) : action == USER_ACTION.CREATE ? (
                 'Xác nhận tạo'
               ) : (
                 'Lưu thay đổi'

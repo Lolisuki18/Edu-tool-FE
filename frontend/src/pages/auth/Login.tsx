@@ -19,6 +19,7 @@ import { SYSTEM_ROLE } from '@/types/role.types';
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import type { User } from '@/types/user.type';
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
+import { translateErrorMessage } from '@/utils';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const LoginPage = () => {
             {error && (
               <div className="bg-red-50/80 border border-red-300 text-error px-4 py-3 rounded-xl flex items-start gap-3 text-small animate-in fade-in slide-in-from-top-2">
                 <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
+                <span>{translateErrorMessage(error)}</span>
               </div>
             )}
 

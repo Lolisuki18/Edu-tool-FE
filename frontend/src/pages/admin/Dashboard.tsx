@@ -3,7 +3,7 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import SchoolIcon from '@mui/icons-material/School';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import { GitHub, TrendingUp } from '@mui/icons-material';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import { SiJira } from 'react-icons/si';
 
 export const Dashboard = () => {
   const stats = [
@@ -41,7 +41,7 @@ export const Dashboard = () => {
     {
       name: 'Jira Cloud',
       status: 'Đồng bộ: 5 phút trước',
-      icon: <IntegrationInstructionsIcon />,
+      icon: <SiJira className="text-white" />,
       iconBg: 'bg-blue-500',
       statusColor: 'text-green-600',
       buttonLabel: 'Kết nối',
@@ -50,7 +50,6 @@ export const Dashboard = () => {
       name: 'GitHub',
       status: 'Đồng bộ: 2 phút trước',
       icon: <GitHub />,
-      iconBg: 'bg-gray-800',
       statusColor: 'text-green-600',
       buttonLabel: 'Kết nối',
     },

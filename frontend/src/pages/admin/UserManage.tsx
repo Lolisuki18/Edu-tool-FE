@@ -6,7 +6,7 @@ import UpgradeIcon from '@mui/icons-material/Upgrade';
 import userService from '@/services/user.service';
 import { SYSTEM_ROLE } from '@/types/role.types';
 import { translateRole, translateStatus } from '@/utils';
-import type { Users } from '@/types/interface';
+import type { Users } from '@/interface';
 import UserModal from '@/components/user/UserModal';
 
 export const UserManage = () => {
