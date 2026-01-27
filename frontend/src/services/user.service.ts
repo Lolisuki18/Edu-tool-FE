@@ -1,6 +1,7 @@
 import axiosInstance from '@/config/axios.config';
+import { USER_PATH } from '@/constants/user/user.path';
 import type { ApiResponse } from '@/types/interface/api.interface';
-import type { Users } from '@/types/interface/user.interface';
+import type { UserFormState, Users } from '@/types/interface/user.interface';
 
 interface PaginatedResponse {
   content: Users[];
@@ -25,7 +26,7 @@ class UserService {
   ): Promise<ApiResponse<PaginatedResponse>> {
     try {
       const response = await axiosInstance.get(
-        '/users?' +
+        `${USER_PATH.ROOT}?` +
           new URLSearchParams({
             page: page.toString(),
             size: size.toString(),
@@ -36,6 +37,25 @@ class UserService {
       return response as ApiResponse<PaginatedResponse>;
     } catch (error) {
       console.error(' Get all users error:', error);
+      throw error;
+    }
+  }
+  async createUser(request: UserFormState): Promise<ApiResponse<Users>> {
+    try {
+      const response = await axiosInstance.post(`${USER_PATH.ROOT}`, request);
+      return response;
+    } catch (error) {
+      console.error('Create user have error', error);
+      throw error;
+    }
+  }
+
+  async updateUser(request: UserFormState): Promise<ApiResponse<Users>> {
+    try {
+      const response = await axiosInstance.put(`${USER_PATH.ROOT}/${request.id}`, request);
+      return response;
+    } catch (error) {
+      console.error('Create user have error', error);
       throw error;
     }
   }

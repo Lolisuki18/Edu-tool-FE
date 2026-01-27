@@ -9,3 +9,13 @@ export interface Users {
   role: SystemRole;
   status: UserStatus;
 }
+
+export interface UserFormState {
+  id?: number;
+  fullName: string;
+  email: string;
+  role: string;
+  password?: string;
+  status: string;
+  username: string;
+}

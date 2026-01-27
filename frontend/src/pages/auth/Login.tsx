@@ -18,6 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { SYSTEM_ROLE } from '@/types/role.types';
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import type { User } from '@/types/user.type';
+import { ADMIN_PATHS } from '@/constants/admin/admin.path';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const LoginPage = () => {
         login(user);
 
         if (user.role?.toUpperCase() === SYSTEM_ROLE.ADMIN) {
-          navigate('/admin');
+          navigate(ADMIN_PATHS.ROOT);
         } else {
           navigate('/');
         }
