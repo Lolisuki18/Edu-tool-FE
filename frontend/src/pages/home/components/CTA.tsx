@@ -8,10 +8,7 @@ const CTA = () => {
         <p className="mt-4 text-blue-100">Bắt đầu sử dụng EduTools ngay hôm nay</p>
 
         <div className="mt-8 flex justify-center gap-4">
-          <Link
-            to="/register"
-            className="btn-primary bg-white text-primary hover:bg-background"
-          >
+          <Link to="/register" className="btn-primary bg-white text-primary hover:bg-background">
             Đăng ký miễn phí
           </Link>
           <Link
