@@ -5,8 +5,36 @@ import CloseIcon from '@mui/icons-material/Close';
 
 type ToastMessage = string | ReactNode;
 
-export const showSuccess = (msg: string) => toast.success(msg);
-export const showError = (msg: string) => toast.error(msg);
+export const showSuccess = (msg: string) =>
+  toast.custom(t =>
+    t.visible ? (
+      <div className="max-w-md w-full bg-green-50 shadow-xl rounded-xl p-4 flex gap-3 items-center">
+        <div className="text-green-600 text-xl">
+          <DoneIcon />
+        </div>
+        <div className="text-black flex-1">{msg}</div>
+        <button onClick={() => toast.dismiss(t.id)} style={{ color: '#ef4444' }} aria-label="Đóng">
+          <CloseIcon style={{ color: '#ef4444' }} />
+        </button>
+      </div>
+    ) : null
+  );
+
+export const showError = (msg: string) =>
+  toast.custom(t =>
+    t.visible ? (
+      <div className="max-w-md w-full bg-red-50 shadow-xl rounded-xl p-4 flex gap-3 items-center">
+        <div className="text-red-600 text-xl">
+          <CloseIcon />
+        </div>
+        <div className="text-black flex-1">{msg}</div>
+        <button onClick={() => toast.dismiss(t.id)} style={{ color: '#ef4444' }} aria-label="Đóng">
+          <CloseIcon style={{ color: '#ef4444' }} />
+        </button>
+      </div>
+    ) : null
+  );
+
 export const successAndRedirect = (message: string, callback?: () => void, duration = 5000) => {
   toast.success(message, { duration });
   if (callback) {
