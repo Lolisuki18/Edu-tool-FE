@@ -3,20 +3,9 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { ADMIN_PATHS } from '@/constants/admin/admin.path';
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import { useAuth } from '@/hooks/useAuth';
-
-const routeNames: Record<string, string> = {
-  [ADMIN_PATHS.DASHBOARD]: 'Tổng quan',
-  [ADMIN_PATHS.GROUPS]: 'Quản lý nhóm',
-  [ADMIN_PATHS.LECTURERS]: 'Quản lý Giảng viên',
-  [ADMIN_PATHS.STUDENTS]: 'Quản lý Sinh viên',
-  [ADMIN_PATHS.REPOSITORIES]: 'Quản lý Repository',
-  [ADMIN_PATHS.JIRA]: 'Quản lý Link Jira',
-  [ADMIN_PATHS.REPORTS]: 'Quản lý Report',
-  [ADMIN_PATHS.USER]: 'Quản lý người dùng',
-};
+import { routeNames } from '@/data/header/routerNames.data';
 
 const Header = () => {
   const { logout } = useAuth();

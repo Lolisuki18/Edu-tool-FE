@@ -101,9 +101,22 @@ frontend/
 ├── public/              # Static assets
 ├── src/
 │   ├── assets/         # Images, fonts, etc.
-│   ├── components/     # React components
-│   ├── pages/          # Page components
-│   ├── utils/          # Utility functions
+│   ├── components/     # React components (admin, common, confirm, navigation, user,...)
+│   ├── config/         # Cấu hình (axios, ...)
+│   ├── constants/      # Các hằng số dùng chung
+│   ├── context/        # React context
+│   ├── data/           # Dữ liệu tĩnh cho UI (header, nav, sidebar, user)
+│   ├── hooks/          # Custom hooks
+│   ├── interface/      # Định nghĩa interface TypeScript
+│   ├── layouts/        # Layout components
+│   ├── pages/          # Page components (admin, auth, home, NotFound)
+│   ├── routes/         # Định nghĩa route
+│   ├── services/       # Gọi API, xử lý nghiệp vụ
+│   ├── stores/         # State management (nếu có)
+│   ├── styles/         # File CSS dùng chung
+│   ├── theme/          # Cấu hình theme (colors, typography, ...)
+│   ├── types/          # Định nghĩa types TypeScript
+│   ├── utils/          # Hàm tiện ích
 │   ├── App.tsx         # Root component
 │   ├── main.tsx        # Entry point
 │   └── index.css       # Global styles + Tailwind imports
@@ -134,7 +147,7 @@ frontend/
 Tailwind CSS v4.1 đã được cấu hình sẵn. Import được thêm trong `src/index.css`:
 
 ```css
-@import 'tailwindcss';
+@import "tailwindcss";
 ```
 
 ### Environment Variables
@@ -164,4 +177,4 @@ Sau khi build thành công với `npm run build`, thư mục `dist/` có thể �
 
 ---
 
-Made with ❤️ by Edu-Tool Team
+Made with ❤️ by Lolisuki18

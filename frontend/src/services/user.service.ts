@@ -1,21 +1,8 @@
 import axiosInstance from '@/config/axios.config';
 import { USER_PATH } from '@/constants/user/user.path';
 import type { ApiResponse } from '@/interface/api.interface';
+import type { PaginatedResponse } from '@/interface/page.interface';
 import type { UserFormState, Users } from '@/interface/user.interface';
-
-interface PaginatedResponse {
-  content: Users[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: any;
-  size: number;
-  sort: any;
-  totalElements: number;
-  totalPages: number;
-}
 
 class UserService {
   async getAllUser(
@@ -56,6 +43,16 @@ class UserService {
       return response;
     } catch (error) {
       console.error('Create user have error', error);
+      throw error;
+    }
+  }
+
+  async deleteUser(id: number): Promise<ApiResponse> {
+    try {
+      const response = await axiosInstance.delete(`${USER_PATH.ROOT}/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Delete user have error', error);
       throw error;
     }
   }

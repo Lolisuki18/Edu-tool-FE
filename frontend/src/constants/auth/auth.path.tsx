@@ -5,4 +5,5 @@ export const AUTH_PATHS = {
   LOGIN: `${AUTH_ROOT}/login`,
   REGISTER: `${AUTH_ROOT}/register`,
   REFRESH_TOKEN: `${AUTH_ROOT}/refresh`,
+  LOGOUT: `${AUTH_ROOT}/logout`,
 };

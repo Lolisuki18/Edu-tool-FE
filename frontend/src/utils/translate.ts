@@ -11,6 +11,7 @@ export const translateRole = (role: string) => {
   if (role == SYSTEM_ROLE.STUDENT) {
     return 'Sinh viên';
   }
+  return 'Không xác định';
 };
 
 export const translateStatus = (status: string) => {
@@ -23,4 +24,5 @@ export const translateStatus = (status: string) => {
   if (status == USER_STATUS.VERIFICATION_PENDING) {
     return 'Đang xác thực';
   }
+  return 'Không xác định';
 };

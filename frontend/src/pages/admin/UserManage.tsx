@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import userService from '@/services/user.service';
-import { SYSTEM_ROLE } from '@/types/role.types';
-import { translateRole, translateStatus } from '@/utils';
+import { SYSTEM_ROLE, type SystemRole } from '@/types/role.types';
+import { showError, showSuccess, translateRole, translateStatus } from '@/utils';
 import type { Users } from '@/interface';
 import UserModal from '@/components/user/UserModal';
-import { USER_ACTION, type UserAction } from '@/types/user.type';
+import { USER_ACTION, type UserAction, type UserStatus } from '@/types/user.type';
+import { useConfirm } from '@/hooks/useConfirm';
+import { CONFIRM_VARIANT } from '@/types/confirm.types';
 
 export const UserManage = () => {
   const [users, setUsers] = useState<Users[]>([]);
@@ -19,6 +22,26 @@ export const UserManage = () => {
   const [isAction, setIsAction] = useState<UserAction>();
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
+  const confirm = useConfirm();
+
+  const handleDelete = async (id: number) => {
+    const ok = await confirm({
+      title: 'Xoá người dùng',
+      message: 'Bạn có chắc là mình muốn xoá người dùng này?',
+      variant: CONFIRM_VARIANT.DANGER,
+      confirmText: 'Xoá',
+      cancelText: 'Huỷ',
+    });
+    if (!ok) return;
+    const response = await userService.deleteUser(id);
+    if (response.success) {
+      showSuccess('Đã xoá người dùng thành công');
+      fetchUsers(page);
+      return;
+    } else {
+      showError('Xoá không thành công');
+    }
+  };
   const handleOpenCreate = () => {
     setIsAction(USER_ACTION.CREATE);
     setSelectedUser(null);
@@ -55,6 +78,25 @@ export const UserManage = () => {
     })();
   }, [page]);
 
+  const renderRoleBadge = (role: SystemRole) => {
+    let className = 'rounded px-2 py-1 text-caption font-semibold ';
+    if (role === SYSTEM_ROLE.ADMIN) {
+      className += 'bg-red-50 text-error';
+    } else if (role === SYSTEM_ROLE.LECTURER) {
+      className += 'bg-blue-50 text-info';
+    } else {
+      className += 'bg-background text-secondary';
+    }
+    return <span className={className}>{translateRole(role)}</span>;
+  };
+
+  const renderStatusBadge = (status: UserStatus) => {
+    const className = `rounded px-2 py-1 text-caption font-semibold ${
+      status === 'ACTIVE' ? 'bg-green-50 text-success' : 'bg-background text-secondary'
+    }`;
+    return <span className={className}>{translateStatus(status)}</span>;
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -82,33 +124,8 @@ export const UserManage = () => {
                 <td className="p-4 text-small font-medium text-text-primary">{user.username}</td>
                 <td className="p-4 text-small text-text-secondary">{user.fullName}</td>
                 <td className="p-4 text-small text-text-secondary">{user.email}</td>
-
-                <td className="p-3">
-                  <span
-                    className={`rounded px-2 py-1 text-caption font-semibold
-                    ${
-                      user.role === SYSTEM_ROLE.ADMIN
-                        ? 'bg-red-50 text-error'
-                        : user.role === SYSTEM_ROLE.LECTURER
-                          ? 'bg-blue-50 text-info'
-                          : 'bg-background text-secondary'
-                    }
-                  `}
-                  >
-                    {translateRole(user.role)}
-                  </span>
-                </td>
-
-                <td className="p-3">
-                  <span
-                    className={`rounded px-2 py-1 text-caption font-semibold
-                    ${user.status === 'ACTIVE' ? 'bg-green-50 text-success' : 'bg-background text-secondary'}
-                  `}
-                  >
-                    {translateStatus(user.status)}
-                  </span>
-                </td>
-
+                <td className="p-3">{renderRoleBadge(user.role)}</td>
+                <td className="p-3">{renderStatusBadge(user.status)}</td>
                 <td className="p-4 text-center">
                   <div className="flex justify-center gap-2">
                     <button
@@ -123,6 +140,13 @@ export const UserManage = () => {
                       title="Sửa"
                     >
                       <UpgradeIcon />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(user.userId)}
+                      className="p-2 rounded-lg transition-colors text-warning hover:bg-orange-50"
+                      title="Xoá"
+                    >
+                      <DeleteIcon />
                     </button>
                   </div>
                 </td>
