@@ -5,6 +5,7 @@ import type { UserStatus } from '../user.type';
 export interface LoginRequest {
   username: string;
   password: string;
+  withCredentials: boolean;
 }
 export interface RegisterRequest {
   fullName: string;

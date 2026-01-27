@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import userService from '@/services/user.service';
+import { SYSTEM_ROLE } from '@/types/role.types';
+import { translateRole, translateStatus } from '@/utils';
 
 interface User {
   userId: number;
@@ -37,7 +39,7 @@ export const UserManage = () => {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Quản lý người dùng</h1>
+        <h1 className="text-2xl font-bold text-gray-500">Quản lý người dùng</h1>
         <p className="text-gray-500">Quản lý người dùng toàn hệ thống</p>
       </div>
 
@@ -55,20 +57,20 @@ export const UserManage = () => {
           </thead>
           <tbody>
             {users.map(user => (
-              <tr key={user.userId} className="border-t hover:bg-gray-50">
-                <td className="p-3">{user.username}</td>
-                <td className="p-3">{user.fullName}</td>
-                <td className="p-3">{user.email}</td>
+              <tr key={user.userId} className="border-t hover:bg-gray-50 ">
+                <td className="p-3 text-black">{user.username}</td>
+                <td className="p-3 text-black">{user.fullName}</td>
+                <td className="p-3 text-black">{user.email}</td>
 
                 <td className="p-3">
                   <span
                     className={`rounded px-2 py-1 text-xs font-semibold
-                    ${user.role === 'ADMIN' && 'bg-red-100 text-red-600'}
-                    ${user.role === 'LECTURER' && 'bg-blue-100 text-blue-600'}
-                    ${user.role === 'STUDENT' && 'bg-gray-100 text-gray-600'}
+                    ${user.role === SYSTEM_ROLE.ADMIN && 'bg-red-100 text-red-600'}
+                    ${user.role === SYSTEM_ROLE.LECTURER && 'bg-blue-100 text-blue-600'}
+                    ${user.role === SYSTEM_ROLE.STUDENT && 'bg-gray-100 text-gray-600'}
                   `}
                   >
-                    {user.role}
+                    {translateRole(user.role)}
                   </span>
                 </td>
 
@@ -82,7 +84,7 @@ export const UserManage = () => {
                     }
                   `}
                   >
-                    {user.status}
+                    {translateStatus(user.status)}
                   </span>
                 </td>
 

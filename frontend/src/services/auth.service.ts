@@ -9,6 +9,7 @@ class AuthService {
         '/auth/login',
         credentials
       );
+
       return response;
     } catch (error) {
       console.error('Login error:', error);
