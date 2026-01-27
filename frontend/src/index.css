@@ -1,14 +1,64 @@
 @import 'tailwindcss';
 
+/* ===== EduTool Design System - Tailwind v4 Configuration ===== */
+@theme {
+  /* Academic Color Palette */
+  --color-primary: #1e40af;
+  --color-primary-hover: #1e3a8a;
+  --color-primary-active: #172554;
+
+  --color-secondary: #475569;
+  --color-secondary-hover: #334155;
+
+  /* Semantic Colors */
+  --color-success: #15803d;
+  --color-success-light: #22c55e;
+  --color-info: #0369a1;
+  --color-warning: #b45309;
+  --color-error: #b91c1c;
+
+  /* Neutral Palette */
+  --color-background: #f8fafc;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-disabled: #cbd5e1;
+
+  /* Typography - Academic Style */
+  --font-family-base: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  --font-size-h1: 30px;
+  --font-size-h2: 24px;
+  --font-size-h3: 20px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+  --font-size-caption: 12px;
+
+  --line-height-h1: 40px;
+  --line-height-h2: 34px;
+  --line-height-h3: 30px;
+  --line-height-body: 26px;
+  --line-height-small: 22px;
+  --line-height-caption: 18px;
+
+  /* Custom Spacing for Academic Layout */
+  --spacing-section: 3rem;
+  --spacing-card: 2rem;
+}
+
+/* ===== Base Styles ===== */
 * {
   box-sizing: border-box;
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-family-base);
+  line-height: 1.625; /* Academic-friendly for long reading */
   font-weight: 400;
-  color-scheme: light dark;
+  color-scheme: light;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
 }
 
 html,
@@ -25,13 +75,155 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== Typography Utilities ===== */
+.text-academic-h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.text-academic-h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.text-academic-h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.text-academic-body {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+/* ===== Button Utilities ===== */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 10px 25px -5px rgb(30 64 175 / 0.3);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--color-primary-active);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--color-primary);
+  padding: 0.875rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  font-size: var(--font-size-body);
+  transition: all 0.2s;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.btn-success {
+  background-color: var(--color-success);
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: var(--color-success-light);
+  box-shadow: 0 10px 25px -5px rgb(21 128 61 / 0.3);
+}
+
+/* ===== Card & Panel Utilities ===== */
+.card-academic {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: var(--spacing-card);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* ===== Input Utilities ===== */
+.input-academic {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  transition: all 0.2s;
+  outline: none;
+}
+
+.input-academic:focus {
+  ring: 4px;
+  ring-color: rgb(30 64 175 / 0.1);
+  border-color: var(--color-primary);
+}
+
+.input-academic::placeholder {
+  color: #94a3b8;
+}
+
+/* ===== Autofill Fix ===== */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-
-  -webkit-text-fill-color: #000 !important;
-
+  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ===== Modal Backdrop ===== */
+.modal-backdrop {
+  background-color: rgb(0 0 0 / 0.2);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== Animation Utilities ===== */
+@keyframes spin-smooth {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-smooth {
+  animation: spin-smooth 1s linear infinite;
 }

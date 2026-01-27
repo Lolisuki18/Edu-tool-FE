@@ -7,7 +7,7 @@ import Header from '@/components/admin/Header';
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-background">
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(s => !s)} />
       <div className="flex-1 flex flex-col">
         <Header />

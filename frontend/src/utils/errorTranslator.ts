@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, ERROR_PATTERN_MAPPING } from '@/constants/errorMessages';
-import type { ErrorDetail } from '@/types/interface/api.interface';
+import type { ErrorDetail } from '@/interface/api.interface';
 
 /**
  * Translate error message từ tiếng Anh sang tiếng Việt
@@ -16,7 +16,6 @@ export const translateErrorMessage = (message: string, code?: string): string =>
     return ERROR_MESSAGES[message];
   }
 
-  // Mapping theo pattern
   for (const { pattern, message: translatedMessage } of ERROR_PATTERN_MAPPING) {
     if (pattern.test(message)) {
       return translatedMessage;

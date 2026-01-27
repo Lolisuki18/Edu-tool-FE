@@ -30,21 +30,20 @@ const menuItems = [
 
 const Sidebar = ({ collapsed = false }: SidebarProps) => (
   <aside
-    className={`bg-gradient-to-b from-indigo-700 to-indigo-900 text-white transition-all ${
+    className={`bg-primary text-white transition-all ${
       collapsed ? 'w-16' : 'w-64'
-    } h-screen flex flex-col sticky top-0`}
+    } h-screen flex flex-col sticky top-0 border-r border-border`}
+    style={{ fontFamily: 'Inter, Roboto, Source Sans 3, IBM Plex Sans, Arial, sans-serif' }}
   >
     {/* Logo Section */}
     <div className="p-6 flex items-center gap-3">
-      <div className="bg-white rounded-lg p-2 flex items-center justify-center w-10 h-10">
-        <svg viewBox="0 0 24 24" className="w-6 h-6 text-indigo-700" fill="currentColor">
-          <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
-        </svg>
+      <div className="bg-background rounded-lg p-2 flex items-center justify-center w-10 h-10 border border-border">
+        <DashboardIcon fontSize="medium" className="text-primary" />
       </div>
       {!collapsed && (
         <div>
-          <div className="text-lg font-bold">EduTools</div>
-          <div className="text-xs text-indigo-200">Admin Portal</div>
+          <div className="text-h3 font-bold text-white">EduTools</div>
+          <div className="text-caption text-blue-200 font-medium">Admin Portal</div>
         </div>
       )}
     </div>
@@ -57,15 +56,29 @@ const Sidebar = ({ collapsed = false }: SidebarProps) => (
           to={item.path}
           end={item.path === ADMIN_PATHS.DASHBOARD}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+            `flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
               isActive
-                ? 'bg-white text-indigo-700 font-medium'
-                : 'text-white hover:bg-indigo-600/50'
+                ? 'bg-background text-primary font-semibold shadow-sm'
+                : 'text-white hover:bg-primary-hover hover:text-white'
             }`
           }
         >
-          <span className="w-5 h-5 flex items-center justify-center">{item.icon}</span>
-          {!collapsed && <span className="text-sm align-middle">{item.label}</span>}
+          <span className="w-6 h-6 flex items-center justify-center">
+            {item.icon &&
+              (typeof item.icon === 'object' ? (
+                <span
+                  className={
+                    'transition-colors ' +
+                    (window.location.pathname === item.path ? 'text-primary' : 'text-white')
+                  }
+                >
+                  {item.icon}
+                </span>
+              ) : (
+                item.icon
+              ))}
+          </span>
+          {!collapsed && <span className="text-small align-middle">{item.label}</span>}
         </NavLink>
       ))}
     </nav>

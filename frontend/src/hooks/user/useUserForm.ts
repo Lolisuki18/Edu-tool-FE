@@ -1,8 +1,8 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent, useCallback } from 'react';
 
 import { showError, showSuccess } from '@/utils';
-import type { ErrorDetail, UserFormState, Users } from '@/types/interface';
-import { USER_STATUS } from '@/types/user.type';
+import type { ErrorDetail, UserFormState, Users } from '@/interface';
+import { USER_ACTION, USER_STATUS, type UserAction } from '@/types/user.type';
 import { SYSTEM_ROLE } from '@/types/role.types';
 import userService from '@/services/user.service';
 
@@ -17,7 +17,7 @@ const INITIAL_FORM_STATE: UserFormState = {
 
 export const useUserForm = (
   onSuccess: () => void,
-  isCreate: boolean,
+  action: UserAction,
   userData?: Users | null,
   isOpen?: boolean
 ) => {
@@ -36,7 +36,7 @@ export const useUserForm = (
 
   useEffect(() => {
     if (isOpen) {
-      if (!isCreate && userData) {
+      if (!(action == USER_ACTION.CREATE) && userData) {
         setFormData({
           fullName: userData.fullName ?? '',
           email: userData.email ?? '',
@@ -49,7 +49,7 @@ export const useUserForm = (
         resetForm();
       }
     }
-  }, [isOpen, isCreate, userData, resetForm]);
+  }, [isOpen, action, userData, resetForm]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -70,17 +70,17 @@ export const useUserForm = (
     setLoading(true);
 
     try {
-      const actionMessage = isCreate ? 'Tạo mới' : 'Cập nhật';
+      const actionMessage = action == USER_ACTION.CREATE ? 'Tạo mới' : 'Cập nhật';
       console.log(`${actionMessage} dữ liệu:`, formData);
 
-      if (isCreate) {
+      if (action == USER_ACTION.CREATE) {
         const response = await userService.createUser(formData);
         if (response.success) {
           resetForm();
           showSuccess('Đã tạo mới người dùng thành công');
         }
       }
-      if (!isCreate) {
+      if (!(action == USER_ACTION.CREATE)) {
         formData.id = userData?.userId;
         const updateData = { ...formData };
         if (!updateData.password) {
@@ -94,7 +94,7 @@ export const useUserForm = (
       }
 
       onSuccess();
-      if (isCreate) resetForm();
+      if (action == USER_ACTION.CREATE) resetForm();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       showError('Có lỗi khi thực hiện: ' + msg);

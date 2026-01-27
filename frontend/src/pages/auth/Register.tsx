@@ -15,7 +15,7 @@ import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import authService from '@/services/auth.service';
-import type { ErrorDetail } from '@/types/interface/api.interface';
+import type { ErrorDetail } from '@/interface/api.interface';
 import ErrorField from '@/components/common/ErrorField';
 import { successWithClose } from '@/utils/toast.tsx';
 
@@ -78,59 +78,57 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center p-4 overflow-hidden font-sans">
       <div className="absolute inset-0 w-full h-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-slate-900 to-black opacity-80"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-slate-900 to-black opacity-80"></div>
 
-        <div className="absolute top-[-5%] right-[-5%] w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-pulse delay-700"></div>
-        <div className="absolute top-[20%] left-[20%] w-72 h-72 bg-cyan-600 rounded-full mix-blend-multiply filter blur-[96px] opacity-30"></div>
+        <div className="absolute top-[-5%] right-[-5%] w-96 h-96 bg-secondary rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-pulse delay-700"></div>
+        <div className="absolute top-[20%] left-[20%] w-72 h-72 bg-info rounded-full mix-blend-multiply filter blur-[96px] opacity-30"></div>
 
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5"></div>
       </div>
 
       <div className="relative w-full max-w-[500px] z-10">
         <div className="text-center mb-8 transform transition-all hover:scale-105 duration-500">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl shadow-lg shadow-blue-500/30 mb-4 border border-white/20">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-primary to-info rounded-2xl shadow-lg shadow-primary/30 mb-4 border border-white/20">
             <GitBranch className="text-white" size={40} />
           </div>
           <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-100 mb-2 tracking-tight">
             EduTools
           </h1>
-          <p className="text-blue-200/80 text-sm font-medium tracking-wide uppercase">
+          <p className="text-blue-200/80 text-small font-medium tracking-wide uppercase">
             FPT University Management System
           </p>
         </div>
 
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8">
+        <div className="card-academic backdrop-blur-xl shadow-2xl">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-academic-h2 text-text-primary">
               Chào mừng đến với Edutools ! <WavingHandIcon className="bg-blend-color mb-1" />
             </h2>
-            <p className="text-slate-500 text-sm mt-1">
+            <p className="text-text-secondary text-small mt-1">
               Nhập thông tin đăng ký của bạn để có thể tiếp tục sử dụng.
             </p>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50/80 border border-red-200 text-red-600 px-4 py-3 rounded-xl flex items-start gap-3 text-sm animate-in fade-in slide-in-from-top-2">
+              <div className="bg-red-50/80 border border-red-300 text-error px-4 py-3 rounded-xl flex items-start gap-3 text-small animate-in fade-in slide-in-from-top-2">
                 <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             <div className="group">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 ml-1">
+              <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Họ và tên
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                  <BadgeCheck size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <BadgeCheck size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="Nguyễn Văn A"
                   required
                 />
@@ -139,19 +137,17 @@ const Register = () => {
             </div>
 
             <div className="group">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 ml-1">
+              <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Email
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                  <Mail size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <Mail size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="name@example.com"
                   required
                 />
@@ -160,19 +156,17 @@ const Register = () => {
             </div>
 
             <div className="group">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 ml-1">
+              <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Tên đăng nhập
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                  <User size={20} />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <User size={20} className="text-primary flex-shrink-0" />
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-slate-800 placeholder:text-slate-400 font-medium"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="username123"
                   required
                 />
@@ -181,31 +175,31 @@ const Register = () => {
             </div>
 
             <div className="group">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 ml-1">
+              <label className="block text-small font-semibold text-text-primary mb-1.5 ml-1">
                 Mật khẩu
               </label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                  <Lock size={20} />
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <Lock size={20} className="text-primary flex-shrink-0" />
+                <div className="flex-1 relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
+                    placeholder="Tối thiểu 8 ký tự"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg transition-all duration-200 flex items-center justify-center text-primary hover:bg-border/50 p-1"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full pl-12 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all text-slate-800 placeholder:text-slate-400 font-medium"
-                  placeholder="Tối thiểu 8 ký tự"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 transition-all"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
               </div>
-              <p className="text-xs text-slate-400 mt-1 ml-1">
+              <p className="text-caption text-secondary mt-1 ml-1">
                 * Mật khẩu cần ít nhất 8 ký tự gồm 1 ký tự đặc biệt và 1 ký tự in hoa
               </p>
               <ErrorField errors={filedError} field="password" />
@@ -214,7 +208,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 group relative bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-600/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all transform active:scale-[0.98] overflow-hidden"
+              className="w-full mt-2 group relative bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary-active text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all transform active:scale-[0.98] overflow-hidden"
             >
               <div className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 -skew-x-12 -translate-x-full"></div>
               {loading ? (
@@ -235,11 +229,11 @@ const Register = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-500">
+            <p className="text-small text-text-secondary">
               Đã có tài khoản?{' '}
               <button
                 onClick={() => navigate(AUTH_PATHS.LOGIN)}
-                className="text-blue-600 hover:text-blue-700 font-bold hover:underline transition-all"
+                className="text-primary hover:text-primary-hover font-bold hover:underline transition-all"
               >
                 Đăng nhập ngay
               </button>

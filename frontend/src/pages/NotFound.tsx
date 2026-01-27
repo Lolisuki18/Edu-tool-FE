@@ -5,24 +5,24 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center px-6">
+    <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Left content */}
         <div>
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Error 404</p>
+          <p className="text-small font-semibold text-primary uppercase tracking-wide">Error 404</p>
 
-          <h1 className="mt-2 text-5xl font-extrabold text-slate-900 leading-tight">
+          <h1 className="mt-2 text-5xl font-extrabold text-text-primary leading-tight">
             Không tìm thấy trang
           </h1>
 
-          <p className="mt-4 text-slate-600 text-lg">
+          <p className="mt-4 text-text-secondary text-body">
             Trang bạn đang tìm kiếm không tồn tại, đã bị xoá hoặc thay đổi đường dẫn.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <button
               onClick={() => navigate('/')}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-white font-medium shadow hover:bg-blue-700 transition"
+              className="btn-primary inline-flex items-center gap-2"
             >
               <HomeIcon className="h-5 w-5" />
               Về trang chủ
@@ -30,7 +30,7 @@ export default function NotFound() {
 
             <button
               onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-6 py-3 text-slate-700 font-medium hover:bg-slate-100 transition"
+              className="btn-secondary inline-flex items-center gap-2"
             >
               <ArrowLeftIcon className="h-5 w-5" />
               Quay lại
@@ -41,9 +41,9 @@ export default function NotFound() {
         {/* Right illustration */}
         <div className="flex justify-center">
           <div className="relative">
-            <div className="text-[180px] font-extrabold text-slate-200 select-none">404</div>
+            <div className="text-[180px] font-extrabold text-border select-none">404</div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-xl font-semibold text-slate-500">Oops!</span>
+              <span className="text-xl font-semibold text-secondary">Oops!</span>
             </div>
           </div>
         </div>

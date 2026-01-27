@@ -10,8 +10,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { useUserForm } from '@/hooks/user';
+import { USER_ACTION, type UserAction } from '@/types/user.type';
 import { SYSTEM_ROLE } from '@/types/role.types';
-import type { Users } from '@/types/interface';
+import type { Users } from '@/interface';
+import { COLORS } from '@/theme';
 
 import CustomSelect from '../common/CustomSelect';
 import ErrorField from '../common/ErrorField';
@@ -19,7 +21,7 @@ import ErrorField from '../common/ErrorField';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  isCreate: boolean;
+  action: UserAction;
   onSuccess: () => void;
   userData?: Users | null;
 }
@@ -28,21 +30,21 @@ const ROLE_OPTIONS = [
   {
     value: SYSTEM_ROLE.STUDENT,
     label: 'Học sinh',
-    icon: <PersonIcon fontSize="small" className="text-gray-400" />,
+    icon: <PersonIcon fontSize="small" className="text-secondary" />,
   },
   {
     value: SYSTEM_ROLE.LECTURER,
     label: 'Giáo viên',
-    icon: <SchoolIcon fontSize="small" className="text-indigo-500" />,
+    icon: <SchoolIcon fontSize="small" className="text-primary" />,
   },
   {
     value: SYSTEM_ROLE.ADMIN,
     label: 'Quản trị viên',
-    icon: <AdminPanelSettingsIcon fontSize="small" className="text-rose-500" />,
+    icon: <AdminPanelSettingsIcon fontSize="small" className="text-error" />,
   },
 ];
 
-const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) => {
+const UserModal = ({ isOpen, onClose, action, onSuccess, userData }: Props) => {
   const {
     formData,
     loading,
@@ -52,29 +54,33 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
     handleSubmit,
     togglePassword,
     fieldErrors,
-  } = useUserForm(onSuccess, isCreate, userData, isOpen);
+  } = useUserForm(onSuccess, action, userData, isOpen);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-[2px] transition-opacity">
-      <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-100 overflow-visible animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
-        {/* Header - Modern Design */}
-        <div className="px-8 py-5 border-b border-slate-50 flex justify-between items-center bg-gradient-to-r from-indigo-50/50 to-transparent rounded-t-3xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop transition-opacity">
+      <div className="bg-background w-full max-w-lg rounded-3xl shadow-2xl border-border border overflow-visible animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
+        <div className="px-8 py-5 border-b border-border flex justify-between items-center rounded-t-3xl bg-background">
           <div>
-            <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">
-              {isCreate ? 'Thêm Thành Viên' : 'Cập Nhật Thông Tin'}
+            <h2 className="text-academic-h1">
+              {action == USER_ACTION.CREATE
+                ? 'Thêm người dùng'
+                : action == USER_ACTION.UPDATE
+                  ? 'Cập Nhật Thông Tin'
+                  : 'Thông tin người dùng'}
             </h2>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-              <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="w-2 h-2 rounded-full bg-primary"></span>
+              <p className="text-caption font-medium uppercase tracking-widest text-primary">
                 Edu Tools System
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white hover:shadow-md rounded-full text-slate-400 hover:text-rose-500 transition-all duration-200"
+            className="p-2 hover:bg-background hover:shadow-md rounded-full transition-all duration-200 text-primary"
+            aria-label="Đóng"
           >
             <CloseIcon />
           </button>
@@ -82,27 +88,24 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
           {error && (
-            <div className="p-4 text-sm text-rose-700 bg-rose-50 rounded-2xl border border-rose-100 flex items-center gap-3">
-              <div className="w-1 h-6 bg-rose-500 rounded-full"></div>
+            <div className="p-4 text-small text-error bg-red-50 rounded-2xl border border-red-300 flex items-center gap-3">
+              <div className="w-1 h-6 bg-error rounded-full"></div>
               {error}
             </div>
           )}
 
           <div className="space-y-5">
-            {/* Username Section (Conditional) */}
-            {isCreate && (
+            {action == USER_ACTION.CREATE && (
               <div className="group space-y-1.5 animate-in slide-in-from-top-4 duration-500">
-                <label className="text-xs font-bold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-indigo-600 transition-colors">
+                <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                   Tên tài khoản
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500">
-                    <PersonOutlineIcon fontSize="small" />
-                  </div>
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <PersonOutlineIcon fontSize="small" className="text-primary flex-shrink-0" />
                   <input
                     name="username"
                     required
-                    className="w-full pl-11 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all duration-200 placeholder:text-slate-400 font-medium text-slate-700 shadow-sm"
+                    className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                     placeholder="Ví dụ: nguyenvana_edu"
                     onChange={handleChange}
                     value={(formData as any).username || ''}
@@ -110,20 +113,16 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
                 </div>
               </div>
             )}
-
-            {/* Họ và Tên */}
             <div className="group space-y-1.5">
-              <label className="text-xs font-bold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-indigo-600 transition-colors">
+              <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                 Họ và tên
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500">
-                  <BadgeOutlinedIcon fontSize="small" />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <BadgeOutlinedIcon fontSize="small" className="text-primary flex-shrink-0" />
                 <input
                   name="fullName"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all duration-200 font-medium text-slate-700 shadow-sm"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="Ví dụ: Nguyễn Văn A"
                   onChange={handleChange}
                   value={formData.fullName}
@@ -131,20 +130,17 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               </div>
             </div>
 
-            {/* Email */}
             <div className="group space-y-1.5">
-              <label className="text-xs font-bold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-indigo-600 transition-colors">
+              <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                 Email học đường
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500">
-                  <AlternateEmailIcon fontSize="small" />
-                </div>
+              <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                <AlternateEmailIcon fontSize="small" className="text-primary flex-shrink-0" />
                 <input
                   name="email"
                   type="email"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all duration-200 font-medium text-slate-700 shadow-sm"
+                  className="flex-1 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
                   placeholder="name@edutools.com"
                   onChange={handleChange}
                   value={formData.email}
@@ -152,7 +148,6 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               </div>
             </div>
 
-            {/* Role & Password Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <CustomSelect
                 label="Vai trò"
@@ -163,64 +158,64 @@ const UserModal = ({ isOpen, onClose, isCreate, onSuccess, userData }: Props) =>
               />
 
               <div className="group space-y-1.5">
-                <label className="text-xs font-bold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-indigo-600 transition-colors">
+                <label className="text-body font-medium ml-1 tracking-wide transition-colors text-primary">
                   Mật khẩu
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500">
-                    <LockOutlinedIcon fontSize="small" />
+                <div className="w-full px-4 py-3 bg-background border border-border rounded-xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all flex items-center gap-3">
+                  <LockOutlinedIcon fontSize="small" className="text-primary flex-shrink-0" />
+                  <div className="flex-1 relative">
+                    <input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      required={action == USER_ACTION.CREATE}
+                      className="w-full pr-9 bg-transparent border-none outline-none text-text-primary placeholder:text-secondary font-medium"
+                      placeholder="••••••••"
+                      onChange={handleChange}
+                      value={formData.password}
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePassword}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg transition-all duration-200 flex items-center justify-center text-primary hover:bg-border/50 p-1"
+                      title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon sx={{ fontSize: 18 }} />
+                      ) : (
+                        <VisibilityIcon sx={{ fontSize: 18 }} />
+                      )}
+                    </button>
                   </div>
-                  <input
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    required={isCreate}
-                    className="w-full pl-11 pr-12 py-3 bg-slate-50/50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all duration-200 font-medium text-slate-700 shadow-sm"
-                    placeholder="••••••••"
-                    onChange={handleChange}
-                    value={formData.password}
-                  />
-
-                  {/* Nút con mắt thay thế cho chữ Ẩn/Hiện */}
-                  <button
-                    type="button"
-                    onClick={togglePassword}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200"
-                    title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-                  >
-                    {showPassword ? (
-                      <VisibilityOffIcon fontSize="small" />
-                    ) : (
-                      <VisibilityIcon fontSize="small" />
-                    )}
-                  </button>
                 </div>
                 <ErrorField errors={fieldErrors} field="password" />
               </div>
             </div>
           </div>
 
-          {/* Action Buttons - Distinct styles */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-6 border-t border-slate-50">
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-full sm:flex-1 px-6 py-3.5 text-slate-500 font-bold hover:bg-slate-50 hover:text-slate-700 rounded-2xl transition-all duration-200"
-            >
+          {/* Action Buttons - Academic Style */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-6 border-t border-border">
+            <button type="button" onClick={onClose} className="btn-secondary w-full sm:flex-1">
               Hủy bỏ
             </button>
             <button
               type="submit"
               disabled={loading}
-              className={`w-full sm:flex-[1.5] px-6 py-3.5 text-white font-extrabold rounded-2xl shadow-xl shadow-indigo-200/50 transition-all duration-300 active:scale-[0.98] flex justify-center items-center gap-2 
-                ${
-                  isCreate
-                    ? 'bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700'
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-emerald-200/50'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+              className="w-full sm:flex-[1.5] text-white font-semibold rounded-2xl shadow-xl transition-all duration-300 active:scale-[0.98] flex justify-center items-center gap-2 text-body disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3.5"
+              style={{
+                backgroundColor: action == USER_ACTION.CREATE ? COLORS.primary : COLORS.success,
+              }}
+              onMouseEnter={e =>
+                (e.currentTarget.style.backgroundColor =
+                  action == USER_ACTION.CREATE ? COLORS.primaryHover : COLORS.successLight)
+              }
+              onMouseLeave={e =>
+                (e.currentTarget.style.backgroundColor =
+                  action == USER_ACTION.CREATE ? COLORS.primary : COLORS.success)
+              }
             >
               {loading ? (
-                <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
-              ) : isCreate ? (
+                <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin-smooth"></div>
+              ) : action == USER_ACTION.CREATE ? (
                 'Xác nhận tạo'
               ) : (
                 'Lưu thay đổi'

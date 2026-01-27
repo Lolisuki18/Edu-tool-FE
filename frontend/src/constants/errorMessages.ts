@@ -21,6 +21,7 @@ export const ERROR_MESSAGES: Record<string, string> = {
   'Internal server error': 'Lỗi hệ thống máy chủ',
 
   'Password must be between 8 and 100 characters': 'Mật khẩu cần có từ 8 đến 100 kí tự',
+  'Invalid username or password': 'Nhập sai username hoặc mật khẩu',
   // Make new error
   // 'New Error Message From API': 'Thông báo lỗi tiếng Việt',
   // 'ErrorCode': 'Thông báo lỗi theo code',
