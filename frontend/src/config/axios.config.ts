@@ -1,7 +1,7 @@
-import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
+import { AUTH_PATHS } from '@/constants/auth/auth.path';
 // --- Interface & Config ---
 interface CustomAxiosInstance extends AxiosInstance {
   get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T>;

@@ -1,12 +1,7 @@
 import { AlertCircle } from 'lucide-react';
 
-import type { ErrorDetail } from '@/interface/api.interface';
 import { translateErrorMessage } from '@/utils/errorTranslator';
-
-interface ErrorFieldProps {
-  errors: ErrorDetail[];
-  field: string;
-}
+import type { ErrorFieldProps } from '@/interface/errorField.interface';
 
 const ErrorField = ({ errors, field }: ErrorFieldProps) => (
   <>

@@ -1,8 +1,4 @@
-export type NavItemConfig = {
-  label: string;
-  to: string;
-  roles?: Array<'guest' | 'user' | 'admin'>;
-};
+import type { NavItemConfig } from '@/types/nav.types';
 
 export const NAV_ITEMS: NavItemConfig[] = [
   { label: 'Home', to: '/', roles: ['guest', 'user', 'admin'] },

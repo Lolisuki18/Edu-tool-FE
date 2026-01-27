@@ -1,32 +1,39 @@
 import { NavLink } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import SchoolIcon from '@mui/icons-material/School';
-import LinkIcon from '@mui/icons-material/Link';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import CodeIcon from '@mui/icons-material/Code';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import { ADMIN_PATHS } from '@/constants/admin/admin.path';
+import { menuItems } from '@/data/sidebar/sidebarItem.data';
 
 type SidebarProps = {
   collapsed?: boolean;
   onToggle?: () => void;
 };
 
-const menuItems = [
-  { icon: <DashboardIcon />, label: 'Tổng quan', path: ADMIN_PATHS.DASHBOARD },
-  { icon: <ManageAccountsIcon />, label: 'Quản lý người dùng', path: ADMIN_PATHS.USER },
-  { icon: <PeopleIcon />, label: 'Quản lý nhóm', path: ADMIN_PATHS.GROUPS },
-  { icon: <ImportContactsIcon />, label: 'Quản lý giảng viên', path: ADMIN_PATHS.LECTURERS },
-  { icon: <SchoolIcon />, label: 'Quản lý sinh viên', path: ADMIN_PATHS.STUDENTS },
-  { icon: <CodeIcon />, label: 'Quản lý kho lưu trữ', path: ADMIN_PATHS.REPOSITORIES },
-  { icon: <LinkIcon />, label: 'Quản lý link Jira', path: ADMIN_PATHS.JIRA },
-  { icon: <TextSnippetIcon />, label: 'Quản lý báo cáo', path: ADMIN_PATHS.REPORTS },
-  { icon: <HourglassEmptyIcon />, label: 'Quản lý kỳ học', path: ADMIN_PATHS.SEMESTER },
-];
+const renderNavItem = (item: (typeof menuItems)[0], collapsed: boolean) => (
+  <NavLink
+    key={item.path}
+    to={item.path}
+    end={item.path === ADMIN_PATHS.DASHBOARD}
+    className={({ isActive }) =>
+      `flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+        isActive
+          ? 'bg-background text-primary font-semibold shadow-sm'
+          : 'text-white hover:bg-primary-hover hover:text-white'
+      }`
+    }
+  >
+    {({ isActive }) => (
+      <>
+        <span
+          className={`w-6 h-6 flex items-center justify-center ${isActive ? 'text-primary' : 'text-white'}`}
+        >
+          {item.icon}
+        </span>
+        {!collapsed && <span className="text-small align-middle">{item.label}</span>}
+      </>
+    )}
+  </NavLink>
+);
 
 const Sidebar = ({ collapsed = false }: SidebarProps) => (
   <aside
@@ -48,39 +55,8 @@ const Sidebar = ({ collapsed = false }: SidebarProps) => (
       )}
     </div>
 
-    {/* Navigation Menu */}
     <nav className="flex-1 px-3 py-4 space-y-1">
-      {menuItems.map(item => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          end={item.path === ADMIN_PATHS.DASHBOARD}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-              isActive
-                ? 'bg-background text-primary font-semibold shadow-sm'
-                : 'text-white hover:bg-primary-hover hover:text-white'
-            }`
-          }
-        >
-          <span className="w-6 h-6 flex items-center justify-center">
-            {item.icon &&
-              (typeof item.icon === 'object' ? (
-                <span
-                  className={
-                    'transition-colors ' +
-                    (window.location.pathname === item.path ? 'text-primary' : 'text-white')
-                  }
-                >
-                  {item.icon}
-                </span>
-              ) : (
-                item.icon
-              ))}
-          </span>
-          {!collapsed && <span className="text-small align-middle">{item.label}</span>}
-        </NavLink>
-      ))}
+      {menuItems.map(item => renderNavItem(item, collapsed))}
     </nav>
   </aside>
 );

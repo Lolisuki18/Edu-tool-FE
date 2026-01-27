@@ -1,20 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-export interface SelectOption {
-  value: string;
-  label: string;
-  icon?: React.ReactNode;
-}
-
-interface CustomSelectProps {
-  label: string;
-  options: SelectOption[];
-  value: string;
-  onChange: (value: string) => void;
-  name: string;
-  error?: string;
-  disabled?: boolean;
-}
+import type { CustomSelectProps } from '@/interface/customSelect.interface';
 
 const CustomSelect = ({
   label,

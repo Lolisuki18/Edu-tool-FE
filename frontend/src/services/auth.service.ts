@@ -1,4 +1,5 @@
 import axiosInstance from '@/config/axios.config';
+import { AUTH_PATHS } from '@/constants/auth/auth.path';
 import type { ApiResponse } from '@/interface/api.interface';
 import type { AuthResponse, LoginRequest, RegisterRequest } from '@/interface/auth.interface';
 
@@ -6,7 +7,7 @@ class AuthService {
   async login(credentials: LoginRequest): Promise<ApiResponse<AuthResponse>> {
     try {
       const response = await axiosInstance.post<ApiResponse<AuthResponse>>(
-        '/auth/login',
+        `${AUTH_PATHS.LOGIN}`,
         credentials
       );
 
@@ -18,7 +19,7 @@ class AuthService {
   }
 
   async register(userData: RegisterRequest): Promise<ApiResponse> {
-    return await axiosInstance.post<ApiResponse>('/auth/register', userData);
+    return await axiosInstance.post<ApiResponse>(`${AUTH_PATHS.REGISTER}`, userData);
   }
 
   /**
@@ -40,12 +41,9 @@ class AuthService {
   //   }
   // }
 
-  /**
-   * Đăng xuất
-   */
   async logout(): Promise<void> {
     try {
-      await axiosInstance.post('/auth/logout', {});
+      await axiosInstance.post(`${AUTH_PATHS.LOGOUT}`, {});
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
@@ -85,22 +83,12 @@ class AuthService {
   //       throw error;
   //     }
   //   }
-
-  /**
-   * Kiểm tra token có hợp lệ không
-   */
   isAuthenticated(): boolean {
     const token = localStorage.getItem('edu_token');
     return !!token;
   }
-
-  /**
-   * Lấy token từ localStorage
-   */
   getToken(): string | null {
     return localStorage.getItem('edu_token');
   }
 }
-
-// Export singleton instance
 export default new AuthService();
