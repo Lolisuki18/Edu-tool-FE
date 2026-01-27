@@ -38,21 +38,16 @@ export const UserManage = () => {
 
   return (
     <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-500">Quản lý người dùng</h1>
-        <p className="text-gray-500">Quản lý người dùng toàn hệ thống</p>
-      </div>
-
       <div className="overflow-x-auto rounded-lg border bg-white">
         <table className="w-full text-left">
           <thead className="bg-gray-100 text-blue-950">
             <tr>
               <th className="p-3">Username</th>
-              <th className="p-3">Full Name</th>
+              <th className="p-3">Họ và tên</th>
               <th className="p-3">Email</th>
-              <th className="p-3">Role</th>
-              <th className="p-3">Status</th>
-              <th className="p-3 text-center">Actions</th>
+              <th className="p-3">Vai trò</th>
+              <th className="p-3">Trạng thái</th>
+              <th className="p-3 text-center">Hành động</th>
             </tr>
           </thead>
           <tbody>
@@ -89,9 +84,9 @@ export const UserManage = () => {
                 </td>
 
                 <td className="p-3 text-center space-x-2">
-                  <button className="text-blue-600 hover:underline">View</button>
-                  <button className="text-yellow-600 hover:underline">Edit</button>
-                  <button className="text-red-600 hover:underline">Disable</button>
+                  <button className="text-blue-600 hover:underline">Xem</button>
+                  <button className="text-yellow-600 hover:underline">Xoá</button>
+                  <button className="text-red-600 hover:underline">Sửa</button>
                 </td>
               </tr>
             ))}
@@ -101,7 +96,7 @@ export const UserManage = () => {
 
       <div className="mt-4 flex items-center justify-between">
         <span className="text-sm text-gray-500">
-          Page {page + 1} / {totalPages}
+          Trang {page + 1} / {totalPages}
         </span>
 
         <div className="space-x-2">
