@@ -37,6 +37,7 @@ cp .env.example .env
 ```
 
 4. Cấu hình các biến môi trường trong file `.env` theo nhu cầu của bạn.
+   **Lưu ý:** Nếu muốn thiết kế thêm, hãy tuân thủ những nguyên tắc Design System (xem tài liệu trong thư mục `frontend/docs`).
 
 ## 💻 Cách chạy ứng dụng
 

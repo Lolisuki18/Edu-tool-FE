@@ -53,6 +53,7 @@ axiosInstance.interceptors.request.use(
 // --- Response Interceptor ---
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
+    console.log('Axios Response', response);
     return response.data;
   },
   async (error: AxiosError) => {
