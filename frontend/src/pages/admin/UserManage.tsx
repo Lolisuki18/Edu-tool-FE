@@ -7,21 +7,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import userService from '@/services/user.service';
 import { SYSTEM_ROLE, type SystemRole } from '@/types/role.types';
 import { showError, showSuccess, translateRole, translateStatus } from '@/utils';
+import { ExportCSV } from '@/utils/exportCSV';
 import type { Users } from '@/interface';
 import UserModal from '@/components/user/UserModal';
 import { USER_ACTION, type UserAction, type UserStatus } from '@/types/user.type';
 import { useConfirm } from '@/hooks/useConfirm';
 import { CONFIRM_VARIANT } from '@/types/confirm.types';
+import ExportFileNameModal from '@/components/csv/ExportFileNameModal';
 
 export const UserManage = () => {
   const [users, setUsers] = useState<Users[]>([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenUser, setIsModalOpenUser] = useState(false);
   const [isAction, setIsAction] = useState<UserAction>();
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
+  const [isModalOpenCSV, setIsModalOpenCSV] = useState(false);
   const confirm = useConfirm();
 
   const handleDelete = async (id: number) => {
@@ -45,13 +48,13 @@ export const UserManage = () => {
   const handleOpenCreate = () => {
     setIsAction(USER_ACTION.CREATE);
     setSelectedUser(null);
-    setIsModalOpen(true);
+    setIsModalOpenUser(true);
   };
 
   const handleOpenUpdate = (user: Users) => {
     setIsAction(USER_ACTION.UPDATE);
     setSelectedUser(user);
-    setIsModalOpen(true);
+    setIsModalOpenUser(true);
   };
 
   const handleViewUser = async (user: Users) => {
@@ -64,11 +67,11 @@ export const UserManage = () => {
     console.log(response.data);
     setIsAction(USER_ACTION.VIEW);
     setSelectedUser(response.data);
-    setIsModalOpen(true);
+    setIsModalOpenUser(true);
   };
 
   const handleSuccess = () => {
-    setIsModalOpen(false);
+    setIsModalOpenUser(false);
     fetchUsers(page);
   };
 
@@ -110,14 +113,49 @@ export const UserManage = () => {
     return <span className={className}>{translateStatus(status)}</span>;
   };
 
+  const executeExport = async (finalFileName: string) => {
+    const response = await userService.exportUsersCsv();
+    await ExportCSV(response, finalFileName);
+  };
+
+  // Handler for importing users from CSV
+  // const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  // };
+
+  // const importInputRef = React.useRef<HTMLInputElement>(null);
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-academic-h1">Quản lý người dùng</h1>
-        <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2">
-          <PersonAddAltIcon />
-          Thêm người dùng
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIsModalOpenCSV(true)}
+            className="btn-secondary flex items-center gap-2"
+            type="button"
+          >
+            Export CSV
+          </button>
+          {/* <button
+            onClick={() => importInputRef.current?.click()}
+            className="btn-secondary flex items-center gap-2"
+            type="button"
+          >
+            Import CSV
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept=".csv"
+            onChange={handleImportCSV}
+            style={{ display: 'none' }}
+          /> */}
+          <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2">
+            <PersonAddAltIcon />
+            Thêm người dùng
+          </button>
+        </div>
       </div>
       <div className="overflow-x-auto rounded-lg border border-border bg-card">
         <table className="w-full text-left">
@@ -193,11 +231,17 @@ export const UserManage = () => {
         </div>
       </div>
       <UserModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpenUser}
+        onClose={() => setIsModalOpenUser(false)}
         action={isAction as UserAction}
         onSuccess={handleSuccess}
         userData={selectedUser}
+      />
+      <ExportFileNameModal
+        isOpen={isModalOpenCSV}
+        onClose={() => setIsModalOpenCSV(false)}
+        onConfirm={executeExport}
+        defaultFileName={`users_export_${new Date().toLocaleDateString('vi-VN').replace(/\//g, '-')}`}
       />
     </div>
   );

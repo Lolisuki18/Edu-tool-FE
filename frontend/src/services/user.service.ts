@@ -3,6 +3,7 @@ import { USER_PATH } from '@/constants/user/user.path';
 import type { ApiResponse } from '@/interface/api.interface';
 import type { PaginatedResponse } from '@/interface/page.interface';
 import type { UserFormState, Users } from '@/interface/user.interface';
+import { AxiosHeaders } from 'axios';
 
 class UserService {
   async getAllUser(
@@ -66,6 +67,13 @@ class UserService {
       console.error('Get user by id have error', error);
       throw error;
     }
+  }
+  async exportUsersCsv(): Promise<any> {
+    // Trả về toàn bộ response để FE lấy cả data (blob) và headers
+    return await axiosInstance.get(`${USER_PATH.EXPORT_CSV}`, {
+      responseType: 'blob',
+      headers: new AxiosHeaders(),
+    });
   }
 }
 export default new UserService();
