@@ -9,7 +9,6 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import userService from '@/services/user.service';
 import { SYSTEM_ROLE, type SystemRole } from '@/types/role.types';
 import { showError, showSuccess, translateRole, translateStatus } from '@/utils';
-import { ExportCSV } from '@/utils/exportCSV';
 import type { Users } from '@/interface';
 import UserModal from '@/components/user/UserModal';
 import { USER_ACTION, type UserAction, type UserStatus } from '@/types/user.type';
@@ -19,6 +18,7 @@ import ExportFileNameModal from '@/components/csv/ExportFileNameModal';
 import csvService from '@/services/csv.service';
 import { USER_PATH } from '@/constants/user/user.path';
 import { ImportCSVModal } from '@/components/csv/ImportModal';
+import { ExportCSV } from '@/utils/exportCSV';
 
 export const UserManage = () => {
   const [users, setUsers] = useState<Users[]>([]);
