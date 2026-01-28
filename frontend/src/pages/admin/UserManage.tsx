@@ -4,6 +4,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import userService from '@/services/user.service';
 import { SYSTEM_ROLE, type SystemRole } from '@/types/role.types';
@@ -142,6 +143,7 @@ export const UserManage = () => {
             className="btn-secondary flex items-center gap-2"
             type="button"
           >
+            <FileDownloadIcon />
             Xuất file CSV
           </button>
 
