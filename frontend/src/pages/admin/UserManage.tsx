@@ -123,27 +123,18 @@ export const UserManage = () => {
     const response = await csvService.exportCsv(`${USER_PATH.EXPORT_CSV}`);
     await ExportCSV(response, finalFileName);
   };
-
-  // Handler for importing users from CSV
-  // const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-  // };
-
-  // const importInputRef = React.useRef<HTMLInputElement>(null);
-
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-academic-h1">Quản lý người dùng</h1>
         <div className="flex gap-2">
-          {/* 3. Nút mở Modal Import */}
           <button
             onClick={() => setIsModalOpenImport(true)}
             className="btn-secondary flex items-center gap-2"
             type="button"
           >
             <FileUploadIcon />
-            Import CSV
+            Nhập file CSV
           </button>
 
           <button
@@ -151,7 +142,7 @@ export const UserManage = () => {
             className="btn-secondary flex items-center gap-2"
             type="button"
           >
-            Export CSV
+            Xuất file CSV
           </button>
 
           <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2">
