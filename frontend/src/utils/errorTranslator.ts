@@ -1,35 +1,33 @@
 import { ERROR_MESSAGES, ERROR_PATTERN_MAPPING } from '@/constants/errorMessages';
 import type { ErrorDetail } from '@/interface/api.interface';
 
-/**
- * Translate error message từ tiếng Anh sang tiếng Việt
- * @param message - Error message từ API
- * @param code - Error code từ API (optional)
- * @returns Translated message hoặc original message nếu không tìm thấy translation
- */
 export const translateErrorMessage = (message: string, code?: string): string => {
-  if (code && ERROR_MESSAGES[code]) {
-    return ERROR_MESSAGES[code];
-  }
+  if (code && ERROR_MESSAGES[code]) return ERROR_MESSAGES[code];
+  if (ERROR_MESSAGES[message]) return ERROR_MESSAGES[message];
+  const linePrefixMatch = message.match(/^(Line \d+: )(.+)$/);
 
-  if (ERROR_MESSAGES[message]) {
-    return ERROR_MESSAGES[message];
+  if (linePrefixMatch) {
+    const prefix = linePrefixMatch[1].replace('Line', 'Dòng');
+    const coreMessage = linePrefixMatch[2];
+
+    for (const { pattern, message: translatedMessage } of ERROR_PATTERN_MAPPING) {
+      if (pattern.test(coreMessage)) {
+        const translatedCore = coreMessage.replace(pattern, translatedMessage);
+        return `${prefix}${translatedCore}`;
+      }
+    }
+    return `${prefix}${coreMessage}`;
   }
 
   for (const { pattern, message: translatedMessage } of ERROR_PATTERN_MAPPING) {
     if (pattern.test(message)) {
-      return translatedMessage;
+      return message.replace(pattern, translatedMessage);
     }
   }
 
   return message;
 };
 
-/**
- * Translate mảng ErrorDetail
- * @param errors - Mảng errors từ API
- * @returns Mảng errors đã được translate
- */
 export const translateErrors = (errors: ErrorDetail[]): ErrorDetail[] => {
   return errors.map(error => ({
     ...error,
