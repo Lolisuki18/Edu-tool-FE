@@ -3,6 +3,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import DeleteIcon from '@mui/icons-material/Delete';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 import userService from '@/services/user.service';
 import { SYSTEM_ROLE, type SystemRole } from '@/types/role.types';
@@ -14,6 +15,9 @@ import { USER_ACTION, type UserAction, type UserStatus } from '@/types/user.type
 import { useConfirm } from '@/hooks/useConfirm';
 import { CONFIRM_VARIANT } from '@/types/confirm.types';
 import ExportFileNameModal from '@/components/csv/ExportFileNameModal';
+import csvService from '@/services/csv.service';
+import { USER_PATH } from '@/constants/user/user.path';
+import { ImportCSVModal } from '@/components/csv/ImportModal';
 
 export const UserManage = () => {
   const [users, setUsers] = useState<Users[]>([]);
@@ -25,6 +29,8 @@ export const UserManage = () => {
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
   const [isModalOpenCSV, setIsModalOpenCSV] = useState(false);
+  const [isModalOpenImport, setIsModalOpenImport] = useState(false);
+
   const confirm = useConfirm();
 
   const handleDelete = async (id: number) => {
@@ -114,7 +120,7 @@ export const UserManage = () => {
   };
 
   const executeExport = async (finalFileName: string) => {
-    const response = await userService.exportUsersCsv();
+    const response = await csvService.exportCsv(`${USER_PATH.EXPORT_CSV}`);
     await ExportCSV(response, finalFileName);
   };
 
@@ -130,6 +136,16 @@ export const UserManage = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-academic-h1">Quản lý người dùng</h1>
         <div className="flex gap-2">
+          {/* 3. Nút mở Modal Import */}
+          <button
+            onClick={() => setIsModalOpenImport(true)}
+            className="btn-secondary flex items-center gap-2"
+            type="button"
+          >
+            <FileUploadIcon />
+            Import CSV
+          </button>
+
           <button
             onClick={() => setIsModalOpenCSV(true)}
             className="btn-secondary flex items-center gap-2"
@@ -137,20 +153,7 @@ export const UserManage = () => {
           >
             Export CSV
           </button>
-          {/* <button
-            onClick={() => importInputRef.current?.click()}
-            className="btn-secondary flex items-center gap-2"
-            type="button"
-          >
-            Import CSV
-          </button>
-          <input
-            ref={importInputRef}
-            type="file"
-            accept=".csv"
-            onChange={handleImportCSV}
-            style={{ display: 'none' }}
-          /> */}
+
           <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2">
             <PersonAddAltIcon />
             Thêm người dùng
@@ -237,11 +240,20 @@ export const UserManage = () => {
         onSuccess={handleSuccess}
         userData={selectedUser}
       />
+
       <ExportFileNameModal
         isOpen={isModalOpenCSV}
         onClose={() => setIsModalOpenCSV(false)}
         onConfirm={executeExport}
         defaultFileName={`users_export_${new Date().toLocaleDateString('vi-VN').replace(/\//g, '-')}`}
+      />
+
+      <ImportCSVModal
+        isOpen={isModalOpenImport}
+        onClose={() => setIsModalOpenImport(false)}
+        onSuccess={handleSuccess}
+        endpoint={`${USER_PATH.IMPORT_CSV}`}
+        title="Nhập người dùng từ file CSV"
       />
     </div>
   );
