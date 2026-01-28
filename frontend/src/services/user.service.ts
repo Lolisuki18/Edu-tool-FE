@@ -4,7 +4,6 @@ import type { ApiResponse } from '@/interface/api.interface';
 import type { PaginatedResponse } from '@/interface/page.interface';
 import type { UserFormState, Users } from '@/interface/user.interface';
 
-
 class UserService {
   async getAllUser(
     page: number = 0,
@@ -68,7 +67,5 @@ class UserService {
       throw error;
     }
   }
-
-  
 }
 export default new UserService();
