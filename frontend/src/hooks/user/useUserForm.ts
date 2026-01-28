@@ -7,6 +7,7 @@ import { SYSTEM_ROLE } from '@/types/role.types';
 import userService from '@/services/user.service';
 
 const INITIAL_FORM_STATE: UserFormState = {
+  id: 0,
   fullName: '',
   email: '',
   role: SYSTEM_ROLE.STUDENT,
@@ -35,21 +36,33 @@ export const useUserForm = (
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      if (!(action == USER_ACTION.CREATE) && userData) {
-        setFormData({
-          fullName: userData.fullName ?? '',
-          email: userData.email ?? '',
-          role: userData.role ?? SYSTEM_ROLE.STUDENT,
-          password: '',
-          status: userData.status ?? USER_STATUS.ACTIVE,
-          username: userData.username ?? '',
-        });
-      } else {
-        resetForm();
-      }
+    if (!isOpen) return;
+
+    setFieldErrors([]);
+    setError('');
+    setShowPassword(false);
+
+    switch (action) {
+      case USER_ACTION.CREATE:
+        setFormData(INITIAL_FORM_STATE);
+        break;
+
+      case USER_ACTION.UPDATE:
+      case USER_ACTION.VIEW:
+        if (userData) {
+          setFormData({
+            id: userData.userId,
+            fullName: userData.fullName ?? '',
+            email: userData.email ?? '',
+            role: userData.role ?? SYSTEM_ROLE.STUDENT,
+            status: userData.status ?? USER_STATUS.ACTIVE,
+            username: userData.username ?? '',
+            password: '',
+          });
+        }
+        break;
     }
-  }, [isOpen, action, userData, resetForm]);
+  }, [action, userData, isOpen]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -70,31 +83,34 @@ export const useUserForm = (
     setLoading(true);
 
     try {
-      const actionMessage = action == USER_ACTION.CREATE ? 'Tạo mới' : 'Cập nhật';
-      console.log(`${actionMessage} dữ liệu:`, formData);
+      let response;
 
-      if (action == USER_ACTION.CREATE) {
-        const response = await userService.createUser(formData);
-        if (response.success) {
-          resetForm();
-          showSuccess('Đã tạo mới người dùng thành công');
-        }
+      if (action === USER_ACTION.CREATE) {
+        response = await userService.createUser(formData);
       }
-      if (!(action == USER_ACTION.CREATE)) {
-        formData.id = userData?.userId;
-        const updateData = { ...formData };
+
+      if (action === USER_ACTION.UPDATE) {
+        const updateData = {
+          ...formData,
+          id: userData?.userId,
+        };
+
         if (!updateData.password) {
           delete updateData.password;
         }
-        const response = await userService.updateUser(updateData);
-        if (response.success) {
-          resetForm();
-          showSuccess('Đã cập nhập người dùng thành công');
-        }
+
+        response = await userService.updateUser(updateData);
       }
 
-      onSuccess();
-      if (action == USER_ACTION.CREATE) resetForm();
+      if (response?.success) {
+        showSuccess(
+          action === USER_ACTION.CREATE
+            ? 'Đã tạo mới người dùng thành công'
+            : 'Đã cập nhật người dùng thành công'
+        );
+
+        onSuccess();
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       showError('Có lỗi khi thực hiện: ' + msg);
@@ -113,5 +129,6 @@ export const useUserForm = (
     handleChange,
     handleSubmit,
     togglePassword: () => setShowPassword(prev => !prev),
+    resetForm,
   };
 };

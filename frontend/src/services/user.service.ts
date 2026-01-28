@@ -47,12 +47,23 @@ class UserService {
     }
   }
 
-  async deleteUser(id: number): Promise<ApiResponse> {
+  async deleteUser(id: number): Promise<ApiResponse<null>> {
     try {
       const response = await axiosInstance.delete(`${USER_PATH.ROOT}/${id}`);
+
       return response;
     } catch (error) {
       console.error('Delete user have error', error);
+      throw error;
+    }
+  }
+
+  async getUserById(id: number): Promise<ApiResponse<Users>> {
+    try {
+      const response = await axiosInstance.get(`${USER_PATH.ROOT}/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Get user by id have error', error);
       throw error;
     }
   }

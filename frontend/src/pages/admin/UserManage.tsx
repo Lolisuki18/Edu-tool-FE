@@ -54,6 +54,19 @@ export const UserManage = () => {
     setIsModalOpen(true);
   };
 
+  const handleViewUser = async (user: Users) => {
+    const response = await userService.getUserById(user.userId);
+    if (response.success) {
+      showSuccess('Lấy người dùng thành công');
+    } else {
+      showError('Không tìm thấy ID người dùng để xem.');
+    }
+    console.log(response.data);
+    setIsAction(USER_ACTION.VIEW);
+    setSelectedUser(response.data);
+    setIsModalOpen(true);
+  };
+
   const handleSuccess = () => {
     setIsModalOpen(false);
     fetchUsers(page);
@@ -129,6 +142,7 @@ export const UserManage = () => {
                 <td className="p-4 text-center">
                   <div className="flex justify-center gap-2">
                     <button
+                      onClick={() => handleViewUser(user)}
                       className="p-2 rounded-lg transition-colors text-info hover:bg-blue-50"
                       title="Xem"
                     >
